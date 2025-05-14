@@ -2,20 +2,96 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel="stylesheet" href="./CSS/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - EventosPro</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="./CSS/styleIndex.css">
+  <link rel="stylesheet" href="./CSS/styleLogin.css">
 </head>
+
 <body>
-  <div class="container">
-    <h2>Iniciar sesión</h2>
-    <form id="login-form">
-      <input type="text" id="login-username" placeholder="correo electronico" required>
-      <input type="password" id="login-password" placeholder="Contraseña" required>
-      <button type="submit">Entrar</button>
-    </form>
-    <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
-    <div id="mensaje"></div>
-  </div>
+  <!-- Barra de navegación -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">EventosPro</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Inicio</a>
+          </li>
+        </ul>
+        <div class="d-flex ms-3">
+          <a href="login.html" class="btn btn-outline-light me-2">Iniciar Sesión</a>
+          <a href="register.html" class="btn btn-primary-custom">Registrarse</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main class="login-main">
+    <div class="container login-container">
+      <h2>Iniciar sesión</h2>
+      <form id="login-form">
+        <input type="text" id="login-username" placeholder="Correo electrónico" required>
+        <input type="password" id="login-password" placeholder="Contraseña" required>
+        <button type="submit" class="login-btn">Entrar</button>
+      </form>
+      <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
+      <div id="mensaje"></div>
+    </div>
+  </main>
+
+  <!-- Pie de página -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <h3>EventosPro</h3>
+          <p>La plataforma líder para la creación y gestión de eventos. Conectamos organizadores con participantes para experiencias inolvidables.</p>
+        </div>
+        <div class="col-md-2 mb-4">
+          <h5>Enlaces Rápidos</h5>
+          <div class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="index.html">Eventos</a>
+            <a href="index.html">Sobre Nosotros</a>
+            <a href="index.html">Contacto</a>
+            <a href="index.html">Política de Privacidad</a>
+          </div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Contacto</h5>
+          <p><i class="fas fa-map-marker-alt me-2"></i> Universidad de Colima, Facultad de Telemática</p>
+          <p><i class="fas fa-phone me-2"></i> +123 456 7890</p>
+          <p><i class="fas fa-envelope me-2"></i> infoeventos@gmail.com</p>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Síguenos</h5>
+          <div class="social-icons">
+            <a href="https://youtu.be/EE-xtCF3T94?si=hj_tAj_Jhqmpz1d6"><i class="fab fa-facebook"></i></a>
+            <a href="https://youtu.be/xvFZjo5PgG0?si=KvXT5uUY9Af4y6Eh"><i class="fab fa-twitter"></i></a>
+            <a href="https://youtu.be/hvL1339luv0?si=CLFNvRL4oeUe1JXq"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtu.be/BhM6hhlG9xM?si=GnFnH4UV7-LStrf7"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+      <div class="text-center">
+        <p class="mb-0">© 2025 EventosPro. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/script.js"></script>
 </body>
 </html>

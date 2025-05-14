@@ -1,0 +1,81 @@
+/* Estructura principal similar al login */
+.register-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px); /* Ajuste para navbar y footer */
+    padding: 40px 0;
+  }
+  
+  .register-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin: 20px auto;
+  }
+  
+  /* Título e inputs */
+  .register-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+  }
+  
+  .register-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  /* Botón de registro */
+  .register-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .register-btn:hover {
+    background-color: var(--primary-color);
+  }
+  
+  /* Mensaje o feedback */
+  #mensaje {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  /* Enlaces dentro del contenedor */
+  .register-container a {
+    color: var(--secondary-color);
+    text-decoration: none;
+  }
+  
+  .register-container a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Ajustes responsivos */
+  @media (max-width: 768px) {
+    .register-main {
+      padding: 20px;
+    }
+    
+    .register-container {
+      padding: 20px;
+    }
+  }
+  
