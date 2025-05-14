@@ -1,9 +1,9 @@
 const mysql = require('mysql2');
 const conexion= mysql.createConnection({
   host: 'localhost',   
-  user: 'miusuario', // Cambia esto por tu usuario de MySQL
-  password: 'miclave', // Cambia esto por tu contraseña de MySQL
-  database: 'test', // Cambia esto por el nombre de tu base de datos
+  user: 'root', // Cambia esto por tu usuario de MySQL
+  password: '', // Cambia esto por tu contraseña de MySQL
+  database: 'eventospro', // Cambia esto por el nombre de tu base de datos
   port: 3306   //revisar el puerto, por defecto es 3306
 });
 
