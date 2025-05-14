@@ -21,7 +21,7 @@ exports.getAllUsers = (callback) => {
 };
 
 // Agregar un nuevo usuario
-exports.addStudent = (userData, callback) => {
+exports.addUser = (userData, callback) => {
   const query = 'INSERT INTO usuarios (username, email, password) VALUES (?, ?, ?)';
   db.query(query, [userData.username, userData.email, userData.password], callback);
 };

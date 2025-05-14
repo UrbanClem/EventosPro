@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 // Aquí debemos importar las rutas que definamos
-const estudiantesRoutes = require('./routes/usuariosRoutes');
+const usuariosRoutes = require('./routes/usuariosRoutes');
 const testRoutes = require('./routes/testRoutes');  // Ruta de prueba
 app.use(express.json());
 
