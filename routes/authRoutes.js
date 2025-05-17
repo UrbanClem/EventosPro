@@ -3,7 +3,7 @@ const router = express.Router();
 // const db = require('../db'); // o como sea tu acceso a la BD
 
 router.post('/login', async (req, res) => {
-  const { email, passwordgit } = req.body;
+  const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: "Faltan datos" });
   }
