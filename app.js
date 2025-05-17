@@ -3,6 +3,7 @@ const app = express();
 const PORT = 3000;
 // Aquí debemos importar las rutas que definamos
 const usuariosRoutes = require('./routes/usuariosRoutes');
+const authRoutes = require('./routes/authRoutes');  // Ruta de autenticación
 const testRoutes = require('./routes/testRoutes');  // Ruta de prueba
 app.use(express.json());
 
@@ -10,6 +11,8 @@ app.use('/prueba', (req,res) => {
    res.send('Esto es un ruta de prueba, puedo definir una ruta o algo aquí');
 });  
 app.use('/api', usuariosRoutes);
+
+app.use('/api', authRoutes);
 
 //probar la conexión a la base de datos
 app.use('/test', testRoutes);
