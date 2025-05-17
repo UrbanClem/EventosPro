@@ -1,0 +1,56 @@
+/* Estilos específicos para la interfaz del Participante */
+
+.participante-main {
+  padding: 20px 0; /* Se reduce el padding para minimizar espacio extra */
+}
+
+.part-section {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.part-section h2 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+/* Estilo para las tarjetas modulares */
+.module-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s;
+  margin: 0 auto;
+  max-width: 350px;
+}
+
+.module-card:hover {
+  transform: translateY(-5px);
+}
+
+.module-card i {
+  font-size: 3rem;
+  color: var(--secondary-color);
+  margin-bottom: 15px;
+}
+
+.module-card h4 {
+  margin-bottom: 10px;
+  color: var(--dark-color);
+}
+
+.module-card p {
+  color: var(--dark-color);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .part-section h2 {
+    font-size: 1.5rem;
+  }
+  .module-card i {
+    font-size: 2.5rem;
+  }
+}

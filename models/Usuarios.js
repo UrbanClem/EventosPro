@@ -22,8 +22,8 @@ exports.getAllUsers = (callback) => {
 
 // Agregar un nuevo usuario
 exports.addUser = (userData, callback) => {
-  const query = 'INSERT INTO usuarios (username, email, password) VALUES (?, ?, ?)';
-  db.query(query, [userData.username, userData.email, userData.password], callback);
+  const query = 'INSERT INTO usuarios (username, email, password, admin) VALUES (?, ?, ?, ?)';
+  db.query(query, [userData.username, userData.email, userData.password, userData.admin], callback);
 };
 
 // Modificar un usuario existente

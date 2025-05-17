@@ -7,30 +7,48 @@ if (regForm) {
     const email = document.getElementById("reg-email").value.trim();
     const password = document.getElementById("reg-password").value.trim();
     const confirmPassword = document.getElementById("reg-confirm-password").value.trim();
+    const userType = document.querySelector('input[name="user-type"]:checked').value;
     const mensaje = document.getElementById("mensaje") || document.getElementById("registerResult");
 
+    // Validaciones
     if (password !== confirmPassword) {
       mensaje.textContent = "❌ Las contraseñas no coinciden.";
       mensaje.style.color = "red";
       return;
     }
 
+    // Determinar el valor admin según el tipo de usuario
+    const adminValue = userType === "Participant" ? 0 : 1;
+
     try {
       const response = await fetch('http://localhost:3000/api/usuarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password })
+        body: JSON.stringify({ 
+          username, 
+          email, 
+          password,
+          admin: adminValue // Enviamos el valor al backend
+        })
       });
+      
       const result = await response.json();
+      
       if (response.ok) {
         mensaje.textContent = "✅ Usuario registrado con éxito.";
         mensaje.style.color = "green";
         regForm.reset();
+        
+        // Redirigir después de 2 segundos
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
       } else {
         mensaje.textContent = result.error || "❌ Error al registrar usuario.";
         mensaje.style.color = "red";
       }
     } catch (error) {
+      console.error('Error:', error);
       mensaje.textContent = "❌ Error de red o servidor.";
       mensaje.style.color = "red";
     }
