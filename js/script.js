@@ -78,8 +78,14 @@ if (loginForm) {
             localStorage.setItem('authToken', result.token);
           }
           
-          // Redirigir al dashboard o página principal
-          window.location.href = '/dashboard.html';
+          // Redirección según el campo admin
+          if (result.admin === 0) {
+            window.location.href = '/part.html';
+          } else if (result.admin === 1) {
+            window.location.href = '/organ.html';
+          } else if (result.admin === 2) {
+            window.location.href = '/admin.html';
+          }
         } else {
           mensaje.textContent = result.message || "⚠️ Credenciales incorrectas.";
         }
