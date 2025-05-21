@@ -3,68 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Participante - EventosPro</title>
+  <title>Mis Eventos - EventosPro</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome para iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- CSS Global y específico para Participante -->
-  <link rel="stylesheet" href="/CSS/styleIndex.css">
-  <link rel="stylesheet" href="/CSS/stylePart.css">
+  <!-- CSS Global y específico para Mis Eventos -->
+  <link rel="stylesheet" href="CSS/styleIndex.css">
+  <link rel="stylesheet" href="CSS/styleMisEventos.css">
 </head>
-<!-- Asignamos al body una estructura flex para asegurar que el footer se quede al final -->
 <body class="d-flex flex-column min-vh-100">
-  <!-- Barra de navegación -->
+  <!-- Barra de navegación idéntica a las otras páginas -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="#">EventosPro - Participante</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#partNavbar" aria-controls="partNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="index.html">EventosPro</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMisEventos" 
+              aria-controls="navbarMisEventos" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="partNavbar">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="login.html">Salir</a>
-          </li>
-        </ul>
+      <div class="collapse navbar-collapse" id="navbarMisEventos">
+        <!-- No se agregan botones extra en la navbar -->
       </div>
     </div>
   </nav>
 
   <!-- Contenido principal -->
-  <!-- Se le añade la clase flex-fill para que ocupe el espacio disponible -->
-  <main class="participante-main flex-fill">
-    <div class="container">
-      <!-- Sección de Buscar Eventos -->
-      <section id="buscar-eventos" class="part-section">
-        <h2>Buscar Eventos</h2>
-        <div class="row justify-content-center" onclick="window.location.href='buscarEventos.html';">
-          <div class="col-lg-6 col-md-8 mb-4">
-            <div class="module-card">
-              <i class="fas fa-search"></i>
-              <h4>Buscar Eventos</h4>
-              <p>Encuentra eventos por categoría, fecha o ubicación.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- Sección de Gestión de Eventos -->
-      <section id="gestion-eventos" class="part-section">
-        <h2>Gestión de Eventos</h2>
-        <div class="row justify-content-center" onclick="window.location.href='misEventos.html';">
-          <div class="col-lg-6 col-md-8 mb-4">
-            <div class="module-card">
-              <i class="fas fa-tasks"></i>
-              <h4>Mis Eventos</h4>
-              <p>Visualiza los eventos a los que te has registrado.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+  <main class="flex-fill">
+    <div class="container my-4">
+      <!-- Título -->
+      <h1 class="text-center mb-4">Mis eventos</h1>
+      
+      <!-- Estructura (tabla) para los eventos registrados -->
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Nombre del Evento</th>
+              <th>Descripción</th>
+              <th>Tipo</th>
+              <th>Fecha y Hora</th>
+              <th>Dirección</th>
+              <th>Capacidad</th>
+              <th>Tipo de Inscripción</th>
+            </tr>
+          </thead>
+          <tbody id="misEventosTableBody">
+            <tr>
+              <td colspan="7" class="text-center">No hay eventos registrados.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </main>
 
-  <!-- Pie de Página (Footer) -->
+  <!-- Pie de página -->
   <footer>
     <div class="container">
       <div class="row">

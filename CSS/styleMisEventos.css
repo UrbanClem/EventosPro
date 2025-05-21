@@ -1,0 +1,22 @@
+/* Asegura que html y body ocupen el 100% de altura */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* El 'body' ya está configurado en el HTML para usar flex y min-vh-100 */
+
+/* El main se expande para empujar el footer hacia abajo */
+main {
+  flex: 1;
+  padding-bottom: 20px;
+}
+
+/* Si fuera necesario, puedes agregar ajustes adicionales para la tabla */
+table {
+  margin-top: 20px;
+}
+
+/* Opcional: personalización de la tabla, si deseas modificar colores o fuentes
+   ya que la mayoría de estilos globales se definen en styleIndex.css */
