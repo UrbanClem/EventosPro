@@ -12,21 +12,19 @@
   <link rel="stylesheet" href="/CSS/styleIndex.css">
   <link rel="stylesheet" href="/CSS/stylePart.css">
 </head>
-<body>
+<!-- Asignamos al body una estructura flex para asegurar que el footer se quede al final -->
+<body class="d-flex flex-column min-vh-100">
   <!-- Barra de navegación -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="#">EventosPro - Participante</a>
+      <a class="navbar-brand" href="#">EventosPro Participante</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#partNavbar" aria-controls="partNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="partNavbar">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="#dashboard" data-bs-toggle="tab" role="tab">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="logout.html">Salir</a>
+            <a class="nav-link" href="login.html">Salir</a>
           </li>
         </ul>
       </div>
@@ -34,41 +32,39 @@
   </nav>
 
   <!-- Contenido principal -->
-  <main class="participante-main">
-    <div class="container tab-content" id="partTabContent">
-      <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
-        <!-- Sección: Buscar Eventos -->
-        <section id="buscar-eventos" class="part-section">
-          <h2>Buscar Eventos</h2>
-          <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8 mb-4">
-              <div class="module-card">
-                <i class="fas fa-search"></i>
-                <h4>Buscar Eventos</h4>
-                <p>Encuentra eventos por categoría, fecha o ubicación.</p>
-              </div>
+  <!-- Se le añade la clase flex-fill para que ocupe el espacio disponible -->
+  <main class="participante-main flex-fill">
+    <div class="container">
+      <!-- Sección de Buscar Eventos -->
+      <section id="buscar-eventos" class="part-section">
+        <h2>Buscar Eventos</h2>
+        <div class="row justify-content-center" onclick="window.location.href='buscarEventos.html';">
+          <div class="col-lg-6 col-md-8 mb-4">
+            <div class="module-card">
+              <i class="fas fa-search"></i>
+              <h4>Buscar Eventos</h4>
+              <p>Encuentra eventos por categoría, fecha o ubicación.</p>
             </div>
           </div>
-        </section>
-
-        <!-- Sección: Gestión de Eventos -->
-        <section id="gestion-eventos" class="part-section">
-          <h2>Gestión de Eventos</h2>
-          <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8 mb-4">
-              <div class="module-card">
-                <i class="fas fa-tasks"></i>
-                <h4>Mis Eventos</h4>
-                <p>Visualiza los eventos a los que te has registrado.</p>
-              </div>
+        </div>
+      </section>
+      <!-- Sección de Gestión de Eventos -->
+      <section id="gestion-eventos" class="part-section">
+        <h2>Gestión de Eventos</h2>
+        <div class="row justify-content-center">
+          <div class="col-lg-6 col-md-8 mb-4">
+            <div class="module-card">
+              <i class="fas fa-tasks"></i>
+              <h4>Mis Eventos</h4>
+              <p>Visualiza los eventos a los que te has registrado.</p>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   </main>
 
-  <!-- Pie de página (footer) -->
+  <!-- Pie de Página (Footer) -->
   <footer>
     <div class="container">
       <div class="row">

@@ -147,3 +147,35 @@ footer {
 .nav-link:hover {
     color: var(--secondary-color) !important;
 }
+
+    /* Nueva clase para el botón "Eventos" */
+    .btn-secondary-custom {
+      background-color: #6c757d;
+      border: 1px solid #6c757d;
+      color: white;
+      padding: 10px 25px;
+      font-weight: bold;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    .btn-secondary-custom:hover {
+      background-color: #5a6268;
+      border-color: #545b62;
+      color: white;
+    }
+
+        /* Aseguramos que html y body ocupen toda la ventana */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    /* Body como contenedor flex de columna */
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    /* Main ocupará el espacio libre */
+    main {
+      flex: 1;
+    }

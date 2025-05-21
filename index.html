@@ -10,26 +10,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- CSS Global -->
   <link rel="stylesheet" href="CSS/styleIndex.css">
-  <!-- Opcional: Incluir definiciones nuevas directamente si no las tienes en styleIndex.css -->
-  <style>
-    /* Nueva clase para el botón "Eventos" */
-    .btn-secondary-custom {
-      background-color: #6c757d;
-      border: 1px solid #6c757d;
-      color: white;
-      padding: 10px 25px;
-      font-weight: bold;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-    .btn-secondary-custom:hover {
-      background-color: #5a6268;
-      border-color: #545b62;
-      color: white;
-    }
-  </style>
 </head>
-<body>
+
+<body class="d-flex flex-column min-vh-100">
+
   <!-- Barra de navegación -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
@@ -39,13 +23,10 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <!-- Aquí podrías agregar otros elementos de navegación si lo deseas -->
         <ul class="navbar-nav ms-auto">
-          <!-- Por ejemplo, podrías dejar esta lista vacía o agregar otros items -->
           <li class="nav-item"></li>
         </ul>
         <div class="d-flex ms-3">
-          <!-- Botón "Eventos" añadido -->
           <a href="inv.html" class="btn btn-secondary-custom me-2">Eventos</a>
           <a href="register.html" class="btn btn-primary-custom">Registrarse</a>
           <a href="login.html" class="btn btn-outline-light me-2">Iniciar Sesión</a>
@@ -54,147 +35,150 @@
     </div>
   </nav>
 
-  <!-- Sección Hero -->
-  <section class="hero-section">
-    <div class="container">
-      <h1 class="display-4 fw-bold mb-4">Crea y gestiona eventos de forma sencilla</h1>
-      <p class="lead mb-5">Plataforma completa para organizar, gestionar y participar en eventos culturales, deportivos, educativos y sociales.</p>
-      <div class="d-flex justify-content-center flex-wrap">
-        <a href="#" class="btn btn-primary-custom mb-2">Registrarse</a>
-        <a href="#" class="btn btn-outline-custom mb-2">Iniciar Sesión</a>
+  <!-- Contenido principal envuelto en main -->
+  <main class="flex-fill">
+    <!-- Sección Hero -->
+    <section class="hero-section">
+      <div class="container">
+        <h1 class="display-4 fw-bold mb-4">Crea y gestiona eventos de forma sencilla</h1>
+        <p class="lead mb-5">Plataforma completa para organizar, gestionar y participar en eventos culturales, deportivos, educativos y sociales.</p>
+        <div class="d-flex justify-content-center flex-wrap">
+          <a href="#" class="btn btn-primary-custom mb-2">Registrarse</a>
+          <a href="#" class="btn btn-outline-custom mb-2">Iniciar Sesión</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Sección de características -->
-  <section class="features-section">
-    <div class="container">
-      <h2 class="text-center mb-5">Todo lo que necesitas para tus eventos</h2>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-calendar-plus"></i>
+    <!-- Sección de características -->
+    <section class="features-section">
+      <div class="container">
+        <h2 class="text-center mb-5">Todo lo que necesitas para tus eventos</h2>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-calendar-plus"></i>
+              </div>
+              <h3>Creación de Eventos</h3>
+              <p>Crea eventos fácilmente especificando nombre, tipo, fecha, lugar, método de inscripción y más.</p>
             </div>
-            <h3>Creación de Eventos</h3>
-            <p>Crea eventos fácilmente especificando nombre, tipo, fecha, lugar, método de inscripción y más.</p>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-search"></i>
+          <div class="col-md-4">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-search"></i>
+              </div>
+              <h3>Búsqueda y Registro</h3>
+              <p>Encuentra eventos por tipo, fecha o ubicación e inscríbete con solo unos clics.</p>
             </div>
-            <h3>Búsqueda y Registro</h3>
-            <p>Encuentra eventos por tipo, fecha o ubicación e inscríbete con solo unos clics.</p>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-chart-bar"></i>
+          <div class="col-md-4">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+              <h3>Reportes Completos</h3>
+              <p>Accede a reportes detallados de asistencia por evento, tipo o organizador.</p>
             </div>
-            <h3>Reportes Completos</h3>
-            <p>Accede a reportes detallados de asistencia por evento, tipo o organizador.</p>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Sección de tipos de usuario -->
-  <section class="user-types-section">
-    <div class="container">
-      <h2 class="text-center mb-5">Para cada tipo de usuario</h2>
-      <div class="row">
-        <div class="col-md-3">
-          <div class="user-type-card">
-            <h4>Organizadores</h4>
-            <ul>
-              <li>Creación de eventos</li>
-              <li>Gestión de inscripciones</li>
-              <li>Estadísticas de asistencia</li>
-            </ul>
+    <!-- Sección de tipos de usuario -->
+    <section class="user-types-section">
+      <div class="container">
+        <h2 class="text-center mb-5">Para cada tipo de usuario</h2>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="user-type-card">
+              <h4>Organizadores</h4>
+              <ul>
+                <li>Creación de eventos</li>
+                <li>Gestión de inscripciones</li>
+                <li>Estadísticas de asistencia</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="user-type-card">
-            <h4>Participantes</h4>
-            <ul>
-              <li>Búsqueda de eventos</li>
-              <li>Inscripción sencilla</li>
-              <li>Historial de participación</li>
-            </ul>
+          <div class="col-md-3">
+            <div class="user-type-card">
+              <h4>Participantes</h4>
+              <ul>
+                <li>Búsqueda de eventos</li>
+                <li>Inscripción sencilla</li>
+                <li>Historial de participación</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="user-type-card">
-            <h4>Invitados</h4>
-            <ul>
-              <li>Acceso a eventos por invitación</li>
-              <li>Información detallada</li>
-              <li>Confirmación de asistencia</li>
-            </ul>
+          <div class="col-md-3">
+            <div class="user-type-card">
+              <h4>Invitados</h4>
+              <ul>
+                <li>Acceso a eventos por invitación</li>
+                <li>Información detallada</li>
+                <li>Confirmación de asistencia</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="user-type-card">
-            <h4>Administradores</h4>
-            <ul>
-              <li>Gestión completa del sistema</li>
-              <li>Reportes avanzados</li>
-              <li>Administración de usuarios</li>
-            </ul>
+          <div class="col-md-3">
+            <div class="user-type-card">
+              <h4>Administradores</h4>
+              <ul>
+                <li>Gestión completa del sistema</li>
+                <li>Reportes avanzados</li>
+                <li>Administración de usuarios</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Sección de tipos de eventos -->
-  <section class="event-types-section">
-    <div class="container">
-      <h2 class="text-center mb-5">Tipos de eventos que puedes gestionar</h2>
-      <div class="row">
-        <div class="col-md-3">
-          <div class="event-type-card">
-            <h4>Eventos Culturales</h4>
-            <p>Conciertos, exposiciones, teatro y más.</p>
+    <!-- Sección de tipos de eventos -->
+    <section class="event-types-section">
+      <div class="container">
+        <h2 class="text-center mb-5">Tipos de eventos que puedes gestionar</h2>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="event-type-card">
+              <h4>Eventos Culturales</h4>
+              <p>Conciertos, exposiciones, teatro y más.</p>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="event-type-card">
-            <h4>Eventos Deportivos</h4>
-            <p>Torneos, carreras, competencias y más.</p>
+          <div class="col-md-3">
+            <div class="event-type-card">
+              <h4>Eventos Deportivos</h4>
+              <p>Torneos, carreras, competencias y más.</p>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="event-type-card">
-            <h4>Eventos Educativos</h4>
-            <p>Conferencias, talleres, seminarios y más.</p>
+          <div class="col-md-3">
+            <div class="event-type-card">
+              <h4>Eventos Educativos</h4>
+              <p>Conferencias, talleres, seminarios y más.</p>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="event-type-card">
-            <h4>Eventos Sociales</h4>
-            <p>Fiestas, reuniones, networking y más.</p>
+          <div class="col-md-3">
+            <div class="event-type-card">
+              <h4>Eventos Sociales</h4>
+              <p>Fiestas, reuniones, networking y más.</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Sección CTA -->
-  <section class="cta-section">
-    <div class="container">
-      <h2 class="display-5 fw-bold mb-4">¿Listo para gestionar tus eventos?</h2>
-      <p class="lead mb-5">Únete a nuestra plataforma y comienza a crear experiencias inolvidables.</p>
-      <div class="d-flex justify-content-center flex-wrap">
-        <a href="#" class="btn btn-primary-custom mb-2">Registrarse Ahora</a>
-        <a href="#" class="btn btn-outline-custom mb-2">Iniciar Sesión</a>
+    <!-- Sección CTA -->
+    <section class="cta-section">
+      <div class="container">
+        <h2 class="display-5 fw-bold mb-4">¿Listo para gestionar tus eventos?</h2>
+        <p class="lead mb-5">Únete a nuestra plataforma y comienza a crear experiencias inolvidables.</p>
+        <div class="d-flex justify-content-center flex-wrap">
+          <a href="register.html" class="btn btn-primary-custom mb-2">Registrarse Ahora</a>
+          <a href="login.html" class="btn btn-outline-custom mb-2">Iniciar Sesión</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- Pie de página -->
   <footer>

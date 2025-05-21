@@ -1,0 +1,35 @@
+/* Aseguramos que html y body ocupen el 100% de la altura */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Usamos flex para que el footer se coloque al final */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* El main ocupa el espacio disponible */
+main {
+  flex: 1;
+}
+
+/* Personalización en la página de Buscar Eventos */
+h1 {
+  color: var(--primary-color);
+}
+
+/* Estilo para el formulario de filtros */
+#searchForm {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Espaciado adicional para la tabla */
+table {
+  margin-top: 20px;
+}

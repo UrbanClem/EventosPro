@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar Eventos - EventosPro</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS Global y específico para Buscar Eventos -->
+  <link rel="stylesheet" href="CSS/styleIndex.css">
+  <link rel="stylesheet" href="CSS/styleBuscarEven.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Barra de Navegación -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <!-- Se muestra solo el nombre de la marca, como en index.html -->
+      <a class="navbar-brand" href="index.html">EventosPro</a>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main class="flex-fill">
+    <div class="container my-4">
+      <!-- Título de la Página -->
+      <h1 class="mb-4 text-center">Buscar Eventos</h1>
+      
+      <!-- Formulario de Búsqueda y Filtros -->
+      <form id="searchForm" class="mb-4">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label for="tipoEvento" class="form-label">Tipo de Evento</label>
+            <select id="tipoEvento" class="form-select">
+              <option value="">Seleccione...</option>
+              <option value="deportivo">Deportivo</option>
+              <option value="cultural">Cultural</option>
+              <option value="educativo">Educativo</option>
+              <option value="social">Social</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="fechaEvento" class="form-label">Fecha</label>
+            <input type="date" id="fechaEvento" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label for="ubicacionEvento" class="form-label">Ubicación</label>
+            <input type="text" id="ubicacionEvento" class="form-control" placeholder="Ciudad o dirección">
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col text-center">
+            <button type="submit" class="btn btn-primary-custom">Buscar</button>
+          </div>
+        </div>
+      </form>
+      
+      <!-- Tabla para mostrar la lista de eventos -->
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Tipo</th>
+              <th>Fecha y Hora</th>
+              <th>Dirección</th>
+              <th>Capacidad</th>
+              <th>Inscripción</th>
+              <th>Inscribirse</th>
+            </tr>
+          </thead>
+          <tbody id="eventosTableBody">
+            <!-- Al inicio, la tabla está vacía. Luego se completarán con datos dinámicos -->
+            <tr>
+              <td colspan="8" class="text-center">No se encontraron eventos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Pie de Página -->
+  <footer class="mt-auto">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <h3>EventosPro</h3>
+          <p>La plataforma líder para la creación y gestión de eventos. Conectamos organizadores con participantes para experiencias inolvidables.</p>
+        </div>
+        <div class="col-md-2 mb-4">
+          <h5>Enlaces Rápidos</h5>
+          <div class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="index.html">Eventos</a>
+            <a href="index.html">Sobre Nosotros</a>
+            <a href="index.html">Contacto</a>
+            <a href="index.html">Política de Privacidad</a>
+          </div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Contacto</h5>
+          <p><i class="fas fa-map-marker-alt me-2"></i> Universidad de Colima, Facultad de Telemática</p>
+          <p><i class="fas fa-phone me-2"></i> +123 456 7890</p>
+          <p><i class="fas fa-envelope me-2"></i> infoeventos@gmail.com</p>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Síguenos</h5>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+      <div class="text-center">
+        <p class="mb-0">© 2025 EventosPro. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Script para el formulario (por ahora solo registra filtros en consola) -->
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      console.log({
+        tipo: document.getElementById('tipoEvento').value,
+        fecha: document.getElementById('fechaEvento').value,
+        ubicacion: document.getElementById('ubicacionEvento').value
+      });
+      // Aquí se implementará la lógica para filtrar y mostrar eventos de la base de datos
+    });
+  </script>
+</body>
+</html>
