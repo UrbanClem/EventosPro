@@ -257,7 +257,7 @@
 
     const formData = {
       nombre: document.getElementById('eventName').value,
-      description: document.getElementById('description').value,
+      descripcion: document.getElementById('description').value,  // Cambiado de description a descripcion
       categoria: document.getElementById('category').value,
       fechayhora: document.getElementById('dateTime').value,
       sede: document.getElementById('venueSelect').value,
@@ -287,8 +287,21 @@
         throw new Error(errorData.message || 'Error al registrar evento');
       }
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        
+        // Mostrar errores de validación de campos
+        if (errorData.message && errorData.message.includes('Faltan campos')) {
+          const campoFaltante = errorData.message.match(/'(.*?)'/)[1];
+          alert(`Por favor complete el campo: ${campoFaltante}`);
+          return;
+        }
+  
+        throw new Error(errorData.message || 'Error al registrar evento');
+      }
+
       const result = await response.json();
-      alert(`Evento registrado con éxito! ID: ${result.eventoId}`);
+      alert(`Evento registrado con éxito!`);
       e.target.reset();
       
     } catch (error) {

@@ -3,10 +3,10 @@ const router = express.Router();
 const db = require('../config/db');
 
 router.post('/eventos', async (req, res) => {
-  const { nombre, description, categoria, fechayhora, sede, capacidad, precio } = req.body;
+  const { nombre, descripcion, categoria, fechayhora, sede, capacidad, precio } = req.body;
 
-  // Validación básica (quitamos la validación de inscripcion)
-  if (!nombre || !description || !categoria || !fechayhora || !sede || !capacidad) {
+  // Validación básica
+  if (!nombre || !descripcion || !categoria || !fechayhora || !sede || !capacidad) {
     return res.status(400).json({ message: "Faltan campos requeridos" });
   }
 
@@ -30,10 +30,10 @@ router.post('/eventos', async (req, res) => {
       });
     }
 
-    // Insertar evento (precio será 0 si no se especifica)
+    // Insertar evento
     const [result] = await db.promise().query(
-      'INSERT INTO eventos (nombre, description, categoria, fechayhora, sede, capacidad, precio) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [nombre, description, categoria, fechayhora, sede, capacidad, precio || 0]  // precio por defecto 0
+      'INSERT INTO eventos (nombre, descripcion, categoria, fechayhora, sede, capacidad, precio) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [nombre, descripcion, categoria, fechayhora, sede, capacidad, precio || 0]
     );
 
     res.status(201).json({
@@ -50,3 +50,5 @@ router.post('/eventos', async (req, res) => {
     });
   }
 });
+
+module.exports = router;
