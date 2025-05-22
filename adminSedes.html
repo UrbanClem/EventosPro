@@ -101,16 +101,37 @@
   
   <!-- Puedes agregar el código de JS para capturar el formulario en el futuro -->
   <script>
-    document.getElementById('sedeForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const data = {};
-      formData.forEach((value, key) => {
-        data[key] = value;
+  document.getElementById('sedeForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = {
+      nombre: document.getElementById('venueName').value,
+      direccion: document.getElementById('address').value,
+      capacidad: document.getElementById('capacity').value
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/api/sede', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
       });
-      alert('Sede registrada con éxito!\n\n' + JSON.stringify(data, null, 2));
-      e.target.reset();
-    });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert('Sede registrada con éxito!');
+        e.target.reset();
+      } else {
+        alert('Error: ' + (result.message || 'No se pudo registrar la sede'));
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error de conexión con el servidor');
+    }
+  });
   </script>
 </body>
 </html>

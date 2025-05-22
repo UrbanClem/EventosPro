@@ -6,6 +6,8 @@ const PORT = 3000;
 // Aquí debemos importar las rutas que definamos
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const authRoutes = require('./routes/authRoutes');  // Ruta de autenticación
+const sedeRoutes = require('./routes/sedeRoutes');  // Ruta de sedes
+const eventosRoutes = require('./routes/eventosRoutes'); // Ruta de eventos
 const testRoutes = require('./routes/testRoutes');  // Ruta de prueba
 app.use(cors());
 app.use(express.json());
@@ -16,6 +18,10 @@ app.use('/prueba', (req,res) => {
 app.use('/api', usuariosRoutes);
 
 app.use('/api', authRoutes);
+
+app.use('/api', sedeRoutes);
+
+app.use('/api', eventosRoutes);
 
 //probar la conexión a la base de datos
 app.use('/test', testRoutes);

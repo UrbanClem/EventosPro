@@ -154,42 +154,169 @@
     </div>
   </footer>
   
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <script>
-    const registrationRadios = document.querySelectorAll('input[name="registrationType"]');
-    const priceContainer = document.getElementById('priceContainer');
-    const priceInput = document.getElementById('price');
-  
-    function togglePriceInput() {
-      const selected = document.querySelector('input[name="registrationType"]:checked').value;
-      if (selected === 'pago') {
-        priceContainer.classList.remove('d-none');
-        priceInput.setAttribute('required', 'required');
-      } else {
-        priceContainer.classList.add('d-none');
-        priceInput.removeAttribute('required');
-        priceInput.value = '';
-      }
-    }
-  
-    registrationRadios.forEach(radio => {
-      radio.addEventListener('change', togglePriceInput);
-    });
-  
-    document.getElementById('eventForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const data = {};
-      formData.forEach((value, key) => { data[key] = value; });
-      alert('Evento registrado con éxito!\n\n' + JSON.stringify(data, null, 2));
-      e.target.reset();
-      togglePriceInput();
-    });
-  
-    // Inicializa al cargar la página
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Cargar sedes y configurar eventos al iniciar
+  document.addEventListener('DOMContentLoaded', async () => {
+    await cargarSedes();
     togglePriceInput();
-  </script>
+    setupCapacityValidation();
+  });
+
+  // Función para cargar sedes desde la API
+  async function cargarSedes() {
+    try {
+      const response = await fetch('http://localhost:3000/api/sede');
+      if (!response.ok) throw new Error('Error al cargar sedes');
+      
+      const sedes = await response.json();
+      const select = document.getElementById('venueSelect');
+      
+      select.innerHTML = '<option value="" disabled selected>Seleccione una sede</option>';
+      
+      sedes.forEach(sede => {
+        const option = document.createElement('option');
+        option.value = sede.id;
+        option.textContent = `${sede.nombre} (Cap. Máx: ${sede.capacidad})`;
+        option.dataset.capacidad = sede.capacidad;
+        select.appendChild(option);
+      });
+    } catch (error) {
+      console.error('Error al cargar sedes:', error);
+      document.getElementById('venueSelect').innerHTML = 
+        '<option value="" disabled selected>Error al cargar sedes</option>';
+    }
+  }
+
+  // Configurar validación de capacidad en tiempo real
+  function setupCapacityValidation() {
+    const capacityInput = document.getElementById('capacity');
+    const venueSelect = document.getElementById('venueSelect');
+
+    venueSelect.addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      if (selectedOption.value) {
+        capacityInput.max = selectedOption.dataset.capacidad;
+        capacityInput.placeholder = `Máximo: ${selectedOption.dataset.capacidad}`;
+      }
+    });
+
+    capacityInput.addEventListener('input', function() {
+      const selectedOption = venueSelect.options[venueSelect.selectedIndex];
+      if (selectedOption && selectedOption.value) {
+        const maxCapacity = parseInt(selectedOption.dataset.capacidad);
+        const currentCapacity = parseInt(this.value) || 0;
+        
+        if (currentCapacity > maxCapacity) {
+          this.classList.add('is-invalid');
+          showCapacityError(`La capacidad no puede exceder ${maxCapacity}`);
+        } else {
+          this.classList.remove('is-invalid');
+          hideCapacityError();
+        }
+      }
+    });
+  }
+
+  // Mostrar error de capacidad
+  function showCapacityError(message) {
+    let errorElement = document.getElementById('capacityError');
+    if (!errorElement) {
+      errorElement = document.createElement('div');
+      errorElement.id = 'capacityError';
+      errorElement.className = 'invalid-feedback';
+      document.getElementById('capacity').after(errorElement);
+    }
+    errorElement.textContent = message;
+  }
+
+  // Ocultar error de capacidad
+  function hideCapacityError() {
+    const errorElement = document.getElementById('capacityError');
+    if (errorElement) {
+      errorElement.remove();
+    }
+  }
+
+  // Manejo del envío del formulario
+  document.getElementById('eventForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Limpiar errores previos
+    document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+    hideCapacityError();
+
+    // Determinar el precio basado en la selección
+    const tipoInscripcion = document.querySelector('input[name="registrationType"]:checked').value;
+    let precio = 0;
+    
+    if (tipoInscripcion === 'pago') {
+      precio = document.getElementById('price').value || 0;
+    }
+
+    const formData = {
+      nombre: document.getElementById('eventName').value,
+      description: document.getElementById('description').value,
+      categoria: document.getElementById('category').value,
+      fechayhora: document.getElementById('dateTime').value,
+      sede: document.getElementById('venueSelect').value,
+      capacidad: document.getElementById('capacity').value,
+      precio: precio
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/api/eventos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        
+        // Manejar error de capacidad
+        if (errorData.message && errorData.message.includes('La capacidad excede')) {
+          document.getElementById('capacity').classList.add('is-invalid');
+          showCapacityError(errorData.message);
+          return;
+        }
+        
+        throw new Error(errorData.message || 'Error al registrar evento');
+      }
+
+      const result = await response.json();
+      alert(`Evento registrado con éxito! ID: ${result.eventoId}`);
+      e.target.reset();
+      
+    } catch (error) {
+      console.error('Error:', error);
+      alert(`Error: ${error.message}`);
+    }
+  });
+
+  // Toggle para el campo de precio
+  const registrationRadios = document.querySelectorAll('input[name="registrationType"]');
+  const priceContainer = document.getElementById('priceContainer');
+  const priceInput = document.getElementById('price');
+
+  function togglePriceInput() {
+    const selected = document.querySelector('input[name="registrationType"]:checked').value;
+    if (selected === 'pago') {
+      priceContainer.classList.remove('d-none');
+      priceInput.setAttribute('required', 'required');
+    } else {
+      priceContainer.classList.add('d-none');
+      priceInput.removeAttribute('required');
+      priceInput.value = '';
+    }
+  }
+
+  registrationRadios.forEach(radio => {
+    radio.addEventListener('change', togglePriceInput);
+  });
+</script>
 </body>
 </html>
