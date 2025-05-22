@@ -3,55 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mis Eventos - EventosPro</title>
+  <title>Listas de Participantes - EventosPro</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome para iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- CSS Global y específico para Mis Eventos -->
+  <!-- CSS Global y específico para esta página -->
   <link rel="stylesheet" href="CSS/styleIndex.css">
-  <link rel="stylesheet" href="CSS/styleMisEventos.css">
+  <link rel="stylesheet" href="CSS/styleVerListas.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
-  <!-- Barra de navegación idéntica a las otras páginas -->
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-primary">
     <div class="container">
-      <a class="navbar-brand" href="index.html">EventosPro - Participante</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMisEventos" 
-              aria-controls="navbarMisEventos" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarMisEventos">
+      <a class="navbar-brand" href="index.html">EventosPro - Organizador</a>
+      <div class="collapse navbar-collapse" id="navbarVerListas">
         <div class="ms-auto">
-          <a href="part.html" class="btn btn-secondary-custom">Regresar</a>
+          <a href="organ.html" class="btn btn-secondary-custom">Regresar</a>
         </div>
       </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerListas" 
+              aria-controls="navbarVerListas" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </div>
   </nav>
 
   <!-- Contenido principal -->
-  <main class="flex-fill">
-    <div class="container my-4">
-      <!-- Título -->
-      <h1 class="text-center mb-4">Mis eventos</h1>
+  <main class="flex-fill py-4">
+    <div class="container">
+      <h1 class="text-center mb-4">Listas de Participantes</h1>
       
-      <!-- Estructura (tabla) para los eventos registrados -->
+      <!-- Tabla para los eventos y sus participantes -->
       <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle">
           <thead class="table-light">
             <tr>
               <th>Nombre del Evento</th>
-              <th>Descripción</th>
-              <th>Tipo</th>
               <th>Fecha y Hora</th>
-              <th>Dirección</th>
-              <th>Capacidad</th>
-              <th>Tipo de Inscripción</th>
+              <th>Capacidad del Evento</th>
+              <th>Participantes</th>
             </tr>
           </thead>
-          <tbody id="misEventosTableBody">
+          <tbody id="listasBody">
+            <!-- Estructura para cada evento con participantes (para futuro se llenará dinámicamente)
+                 Por ahora se muestra un mensaje en caso de que la lista esté vacía -->
             <tr>
-              <td colspan="7" class="text-center">No hay eventos registrados.</td>
+              <td colspan="4" class="text-center">No se encontraron eventos ni participantes.</td>
             </tr>
           </tbody>
         </table>
@@ -59,8 +57,8 @@
     </div>
   </main>
 
-  <!-- Pie de página -->
-  <footer>
+  <!-- Footer -->
+  <footer class="bg-indigo-600 text-white py-6">
     <div class="container">
       <div class="row">
         <div class="col-md-4 mb-4">
@@ -70,11 +68,11 @@
         <div class="col-md-2 mb-4">
           <h5>Enlaces Rápidos</h5>
           <div class="footer-links">
-            <a href="index.html">Inicio</a>
-            <a href="index.html">Eventos</a>
-            <a href="index.html">Sobre Nosotros</a>
-            <a href="index.html">Contacto</a>
-            <a href="index.html">Política de Privacidad</a>
+            <a href="index.html" class="text-white">Inicio</a>
+            <a href="index.html" class="text-white">Eventos</a>
+            <a href="index.html" class="text-white">Sobre Nosotros</a>
+            <a href="index.html" class="text-white">Contacto</a>
+            <a href="index.html" class="text-white">Política de Privacidad</a>
           </div>
         </div>
         <div class="col-md-3 mb-4">
@@ -86,10 +84,10 @@
         <div class="col-md-3 mb-4">
           <h5>Síguenos</h5>
           <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-white"><i class="fab fa-linkedin"></i></a>
           </div>
         </div>
       </div>
@@ -99,7 +97,7 @@
       </div>
     </div>
   </footer>
-
+  
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

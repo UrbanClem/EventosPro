@@ -1,0 +1,43 @@
+/* Aseguramos que html y body ocupen el 100% de la altura */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* main se expande para ocupar el espacio disponible */
+main {
+  flex: 1;
+  padding-bottom: 20px;
+}
+
+/* Opcional: limitar el ancho del contenedor si se desea */
+.container {
+  max-width: 1200px;
+}
+
+/* Report Table Customizations */
+.report-table {
+  margin-top: 20px;
+}
+
+.report-table th, 
+.report-table td {
+  vertical-align: middle;
+  /* Puedes ajustar padding o font-size según necesidad */
+}
+
+/* Se asume que la clase btn-secondary-custom ya está definida globalmente en styleIndex.css; si no, se puede definir aquí */
+.btn-secondary-custom {
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+.btn-secondary-custom:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+  color: #fff;
+}

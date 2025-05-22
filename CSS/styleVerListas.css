@@ -1,0 +1,34 @@
+/* Aseguramos que html y body ocupen el 100% de la altura */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* main se expande para ocupar el espacio libre */
+main {
+  flex: 1;
+  padding-bottom: 20px;
+}
+
+/* Estilos específicos para esta página */
+/* Si se necesitan ajustes particulares para la tabla, por ejemplo: */
+table {
+  margin-top: 20px;
+}
+table th, table td {
+  vertical-align: middle;
+}
+
+/* Opcional: Puedes incluir estilos para la subtabla de participantes (en caso de implementarla en el futuro)
+   Por ejemplo: */
+.participants-table {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+.participants-table th, .participants-table td {
+  padding: 0.25rem;
+}
+
+/* Los estilos para el botón "Regresar" se asumirán globales (clase btn-secondary-custom),
+   pero si es necesario puedes definirlos aquí también */
