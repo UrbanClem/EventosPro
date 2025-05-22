@@ -39,9 +39,9 @@
   <main class="login-main">
     <div class="container login-container">
       <h2>Iniciar sesión</h2>
-      <form id="login-form">
-        <input type="text" id="login-username" placeholder="Correo electrónico" required>
-        <input type="password" id="login-password" placeholder="Contraseña" required>
+      <form id="login-form" method="POST" action="/dashboard" autocomplete="on">
+        <input type="email" id="login-username" name="email" placeholder="Correo electrónico" required>
+        <input type="password" id="login-password" name="password" placeholder="Contraseña" required>
         <button type="submit" class="login-btn">Entrar</button>
       </form>
       <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>

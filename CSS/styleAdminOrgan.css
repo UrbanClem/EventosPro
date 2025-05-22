@@ -1,0 +1,42 @@
+/* Aseguramos que html y body ocupen el 100% de la altura */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* main se expande para ocupar el espacio libre */
+main {
+  flex: 1;
+  padding-bottom: 20px;
+}
+
+/* Opcional: Ajustar el ancho máximo de la tabla o del contenedor si es necesario */
+.container {
+  max-width: 1200px;
+}
+
+/* Si se requieren estilos adicionales para la tabla, por ejemplo: */
+table {
+  margin-top: 20px;
+}
+
+/* Las celdas se pueden ajustar con paddings si se desea */
+table th, table td {
+  vertical-align: middle;
+}
+
+/* Se asume que las clases globales para botones (ej. btn-secondary-custom) ya están definidas en styleIndex.css */
+/* Ejemplo local, en caso de ser necesario: */
+.btn-secondary-custom {
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+}
+.btn-secondary-custom:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+  color: #fff;
+}

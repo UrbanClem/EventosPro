@@ -2,56 +2,65 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Administración de Sedes - EventosPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reportes y Estadísticas - EventosPro</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome -->
+  <!-- Font Awesome para iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- CSS Global y específico -->
+  <!-- CSS Global y CSS específico de Reportes -->
   <link rel="stylesheet" href="CSS/styleIndex.css">
-  <link rel="stylesheet" href="CSS/styleAdminSedes.css">
+  <link rel="stylesheet" href="CSS/styleReportes.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-primary">
     <div class="container">
       <a class="navbar-brand" href="index.html">EventosPro - Admin</a>
-      <div class="collapse navbar-collapse" id="navbarAdminSedes">
+      <div class="collapse navbar-collapse" id="navbarReportes">
         <div class="ms-auto">
-          <!-- Botón Regresar que lleva a la página de administradores -->
           <a href="admin.html" class="btn btn-secondary-custom">Regresar</a>
         </div>
       </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdminSedes" aria-controls="navbarAdminSedes" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarReportes"
+              aria-controls="navbarReportes" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button> 
+      </button>
     </div>
   </nav>
 
   <!-- Contenido principal -->
   <main class="flex-fill py-4">
     <div class="container">
-      <h2 class="text-center mb-4">Registro de Sedes</h2>
-      <form id="sedeForm" class="bg-white p-4 rounded shadow-sm">
-        <div class="row g-3">
-          <div class="col-md-12">
-            <label for="venueName" class="form-label">Nombre de la Sede</label>
-            <input type="text" id="venueName" name="venueName" placeholder="Nombre de la sede" required class="form-control">
+      <h1 class="text-center mb-4">Reportes y Estadísticas</h1>
+      <!-- Sección de Report Cards -->
+      <section class="reportes-section">
+        <div class="row g-4">
+          <!-- Informe de Asistencia -->
+          <div class="col-md-4">
+            <div class="report-card p-4 shadow-sm">
+              <h4 class="mb-3">Informe de Asistencia</h4>
+              <p class="text-muted">Sin datos disponibles.</p>
+            </div>
           </div>
-          <div class="col-md-12">
-            <label for="address" class="form-label">Dirección</label>
-            <input type="text" id="address" name="address" placeholder="Dirección de la sede" required class="form-control">
+          <!-- Eventos por Categoría -->
+          <div class="col-md-4">
+            <div class="report-card p-4 shadow-sm">
+              <h4 class="mb-3">Eventos por Categoría</h4>
+              <p class="text-muted">Sin datos disponibles.</p>
+            </div>
           </div>
-          <div class="col-md-12">
-            <label for="capacity" class="form-label">Capacidad Máxima</label>
-            <input type="number" id="capacity" name="capacity" placeholder="Capacidad máxima" min="1" required class="form-control">
+          <!-- Rendimiento de Organizadores -->
+          <div class="col-md-4">
+            <div class="report-card p-4 shadow-sm">
+              <h4 class="mb-3">Rendimiento de Organizadores</h4>
+              <p class="text-muted">Sin datos disponibles.</p>
+            </div>
           </div>
+          <!-- Puedes agregar más tarjetas según se requiera -->
         </div>
-        <div class="text-center mt-4">
-          <button type="submit" class="btn btn-primary-custom px-4 py-2">Registrar Sede</button>
-        </div>
-      </form>
+      </section>
     </div>
   </main>
 
@@ -89,28 +98,14 @@
           </div>
         </div>
       </div>
-      <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+      <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
       <div class="text-center">
         <p class="mb-0">© 2025 EventosPro. Todos los derechos reservados.</p>
       </div>
     </div>
   </footer>
-  
+
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <!-- Puedes agregar el código de JS para capturar el formulario en el futuro -->
-  <script>
-    document.getElementById('sedeForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const data = {};
-      formData.forEach((value, key) => {
-        data[key] = value;
-      });
-      alert('Sede registrada con éxito!\n\n' + JSON.stringify(data, null, 2));
-      e.target.reset();
-    });
-  </script>
 </body>
 </html>
