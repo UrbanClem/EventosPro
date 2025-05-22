@@ -15,9 +15,9 @@
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Barra de Navegación -->
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-primary">
     <div class="container">
-      <!-- Se muestra solo el nombre de la marca, como en index.html -->
+      <!-- Se muestra la marca -->
       <a class="navbar-brand" href="index.html">EventosPro</a>
     </div>
   </nav>
@@ -31,6 +31,12 @@
       <!-- Formulario de Búsqueda y Filtros -->
       <form id="searchForm" class="mb-4">
         <div class="row g-3">
+          <!-- Primer campo: Nombre del Evento -->
+          <div class="col-md-4">
+            <label for="nombreEvento" class="form-label">Nombre del Evento</label>
+            <input type="text" id="nombreEvento" class="form-control" placeholder="Ingrese el nombre del evento">
+          </div>
+          <!-- Segundo campo: Tipo de Evento -->
           <div class="col-md-4">
             <label for="tipoEvento" class="form-label">Tipo de Evento</label>
             <select id="tipoEvento" class="form-select">
@@ -41,13 +47,10 @@
               <option value="social">Social</option>
             </select>
           </div>
+          <!-- Tercer campo: Fecha y Hora del Evento -->
           <div class="col-md-4">
-            <label for="fechaEvento" class="form-label">Fecha</label>
-            <input type="date" id="fechaEvento" class="form-control">
-          </div>
-          <div class="col-md-4">
-            <label for="ubicacionEvento" class="form-label">Ubicación</label>
-            <input type="text" id="ubicacionEvento" class="form-control" placeholder="Ciudad o dirección">
+            <label for="fechaHoraEvento" class="form-label">Fecha y Hora</label>
+            <input type="datetime-local" id="fechaHoraEvento" class="form-control">
           </div>
         </div>
         <div class="row mt-3">
@@ -73,7 +76,7 @@
             </tr>
           </thead>
           <tbody id="eventosTableBody">
-            <!-- Al inicio, la tabla está vacía. Luego se completarán con datos dinámicos -->
+            <!-- Al inicio, la tabla está vacía -->
             <tr>
               <td colspan="8" class="text-center">No se encontraron eventos.</td>
             </tr>
@@ -84,7 +87,7 @@
   </main>
 
   <!-- Pie de Página -->
-  <footer class="mt-auto">
+  <footer class="bg-indigo-600 text-white py-6">
     <div class="container">
       <div class="row">
         <div class="col-md-4 mb-4">
@@ -94,11 +97,11 @@
         <div class="col-md-2 mb-4">
           <h5>Enlaces Rápidos</h5>
           <div class="footer-links">
-            <a href="index.html">Inicio</a>
-            <a href="index.html">Eventos</a>
-            <a href="index.html">Sobre Nosotros</a>
-            <a href="index.html">Contacto</a>
-            <a href="index.html">Política de Privacidad</a>
+            <a href="index.html" class="text-white">Inicio</a>
+            <a href="index.html" class="text-white">Eventos</a>
+            <a href="index.html" class="text-white">Sobre Nosotros</a>
+            <a href="index.html" class="text-white">Contacto</a>
+            <a href="index.html" class="text-white">Política de Privacidad</a>
           </div>
         </div>
         <div class="col-md-3 mb-4">
@@ -110,14 +113,14 @@
         <div class="col-md-3 mb-4">
           <h5>Síguenos</h5>
           <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-white"><i class="fab fa-linkedin"></i></a>
           </div>
         </div>
       </div>
-      <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+      <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
       <div class="text-center">
         <p class="mb-0">© 2025 EventosPro. Todos los derechos reservados.</p>
       </div>
@@ -126,7 +129,8 @@
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Script para el formulario (por ahora solo registra filtros en consola) -->
+
+  <!-- Script para el formulario (SE DEJA EXACTAMENTE COMO LO ENVIASTE AL INICIO) -->
   <script>
     // Cargar eventos al iniciar la página
     document.addEventListener('DOMContentLoaded', cargarEventos);
