@@ -51,4 +51,54 @@ router.post('/eventos', async (req, res) => {
   }
 });
 
+router.get('/eventos', async (req, res) => {
+  try {
+    const { tipo, fecha, ubicacion } = req.query;
+    let query = `
+      SELECT 
+        e.id,
+        e.nombre,
+        e.descripcion,
+        e.categoria AS tipo,
+        e.fechayhora,
+        s.direccion,
+        e.capacidad,
+        CASE 
+          WHEN e.precio = 0 THEN 'Gratis'
+          ELSE CONCAT('$', e.precio)
+        END AS inscripcion,
+        e.precio
+      FROM eventos e
+      JOIN sede s ON e.sede = s.id
+      WHERE 1=1
+    `;
+    
+    const params = [];
+    
+    if (tipo) {
+      query += ' AND e.categoria = ?';
+      params.push(tipo);
+    }
+    
+    if (fecha) {
+      query += ' AND DATE(e.fechayhora) = ?';
+      params.push(fecha);
+    }
+    
+    if (ubicacion) {
+      query += ' AND s.direccion LIKE ?';
+      params.push(`%${ubicacion}%`);
+    }
+    
+    query += ' ORDER BY e.fechayhora ASC';
+    
+    const [eventos] = await db.promise().query(query, params);
+    res.json(eventos);
+    
+  } catch (error) {
+    console.error('Error al obtener eventos:', error);
+    res.status(500).json({ message: "Error al obtener eventos" });
+  }
+});
+
 module.exports = router;
