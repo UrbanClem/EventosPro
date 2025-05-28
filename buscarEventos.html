@@ -251,7 +251,7 @@
 
       container.innerHTML = eventos.map(evento => {
         const esEventoPasado = new Date(evento.fechayhora) < new Date();
-        const capacidadTexto = evento.capacidad === null ? 'Ilimitada' : `${evento.inscritos || 0}/${evento.capacidad}`;
+        const capacidadTexto = evento.capacidad === null ? 'Ilimitada' : `${evento.capacidad}`;
         const sinCupo = evento.capacidad !== null && evento.capacidad <= (evento.inscritos || 0);
         const yaInscrito = token && evento.inscritosUsuarios?.includes(userData.id);
         

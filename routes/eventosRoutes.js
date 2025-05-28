@@ -186,4 +186,42 @@ router.delete('/eventos/:id', async (req, res) => {
   }
 });
 
+// Ruta para obtener eventos de un organizador específico
+router.get('/eventos-org', async (req, res) => {
+  try {
+    const { id_usuario } = req.query;
+    
+    if (!id_usuario) {
+      return res.status(400).json({ message: "Se requiere el ID del organizador" });
+    }
+
+    const query = `
+      SELECT 
+        e.id,
+        e.nombre,
+        e.descripcion,
+        e.categoria AS tipo,
+        e.fechayhora,
+        s.direccion,
+        e.capacidad,
+        CASE 
+          WHEN e.precio = 0 THEN 'Gratis'
+          ELSE CONCAT('$', e.precio)
+        END AS inscripcion,
+        e.precio
+      FROM eventos e
+      JOIN sede s ON e.sede = s.id
+      WHERE e.id_usuario = ?
+      ORDER BY e.fechayhora ASC
+    `;
+    
+    const [eventos] = await db.promise().query(query, [id_usuario]);
+    res.json(eventos);
+    
+  } catch (error) {
+    console.error('Error al obtener eventos del organizador:', error);
+    res.status(500).json({ message: "Error al obtener eventos del organizador" });
+  }
+});
+
 module.exports = router;
