@@ -61,27 +61,12 @@
       </form>
       
       <!-- Tabla para mostrar la lista de eventos -->
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle">
-          <thead class="table-light">
-            <tr>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th>Tipo</th>
-              <th>Fecha y Hora</th>
-              <th>Dirección</th>
-              <th>Capacidad</th>
-              <th>Inscripción</th>
-              <th>Inscribirse</th>
-            </tr>
-          </thead>
-          <tbody id="eventosTableBody">
-            <!-- Al inicio, la tabla está vacía -->
-            <tr>
-              <td colspan="8" class="text-center">No se encontraron eventos.</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Contenedor de Tarjetas de Eventos -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="eventosContainer">
+        <!-- Mensaje cuando no hay eventos -->
+        <div class="col" id="sinEventos">
+          <div class="alert alert-info m-3">No se encontraron eventos.</div>
+        </div>
       </div>
     </div>
   </main>
@@ -165,34 +150,52 @@
 
     // Función para mostrar eventos en la tabla
     function mostrarEventos(eventos) {
-      const tbody = document.getElementById('eventosTableBody');
-      
-      if (eventos.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="8" class="text-center">No se encontraron eventos.</td>
-          </tr>
-        `;
-        return;
-      }
-
-      tbody.innerHTML = eventos.map(evento => `
-        <tr>
-          <td>${evento.nombre}</td>
-          <td>${evento.descripcion}</td>
-          <td>${evento.tipo}</td>
-          <td>${new Date(evento.fechayhora).toLocaleString()}</td>
-          <td>${evento.direccion}</td>
-          <td>${evento.capacidad}</td>
-          <td>${evento.inscripcion}</td>
-          <td class="text-center">
-            <button class="btn btn-sm btn-primary" onclick="inscribirse(${evento.id}, ${evento.precio})">
-              Inscribirse
-            </button>
-          </td>
-        </tr>
-      `).join('');
-    }
+  const container = document.getElementById('eventosContainer');
+  const sinEventos = document.getElementById('sinEventos');
+  
+  if (eventos.length === 0) {
+    sinEventos.style.display = 'block';
+    container.innerHTML = '';
+    return;
+  }
+  
+  sinEventos.style.display = 'none';
+  container.innerHTML = eventos.map(evento => `
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="card-title mb-0">${evento.nombre}</h5>
+          <small>${evento.tipo}</small>
+        </div>
+        <div class="card-body">
+          <p class="card-text">${evento.descripcion}</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <i class="fas fa-calendar-alt me-2"></i>
+              ${new Date(evento.fechayhora).toLocaleString()}
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-map-marker-alt me-2"></i>
+              ${evento.direccion}
+            </li>
+            <li class="list-group-item">
+              Capacidad: ${evento.capacidad} personas
+            </li>
+            <li class="list-group-item">
+              Inscripción: ${evento.inscripcion}
+            </li>
+          </ul>
+        </div>
+        <div class="card-footer bg-transparent">
+          <button class="btn btn-primary w-100" 
+                  onclick="inscribirse(${evento.id}, ${evento.precio})">
+            Inscribirse
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
 
     // Función para manejar el formulario de búsqueda
     document.getElementById('searchForm').addEventListener('submit', function(e) {

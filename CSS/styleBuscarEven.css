@@ -28,3 +28,27 @@ main {
 .table th, .table td {
   vertical-align: middle;
 }
+
+.card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.list-group-item {
+  border: none;
+  padding: 0.75rem 1.25rem;
+}
+
+.card-footer {
+  border-top: 1px solid rgba(0,0,0,0.125);
+}
