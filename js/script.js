@@ -7,12 +7,24 @@ if (regForm) {
     const email = document.getElementById("reg-email").value.trim();
     const password = document.getElementById("reg-password").value.trim();
     const confirmPassword = document.getElementById("reg-confirm-password").value.trim();
-    const userType = document.querySelector('input[name="user-type"]:checked').value;
+    const userType = document.querySelector('input[name="user-type"]:checked')?.value;
     const mensaje = document.getElementById("mensaje") || document.getElementById("registerResult");
 
-    // Validaciones
+    // Validaciones mejoradas
+    if (!username || !email || !password || !confirmPassword || !userType) {
+      mensaje.textContent = "❌ Por favor complete todos los campos.";
+      mensaje.style.color = "red";
+      return;
+    }
+
     if (password !== confirmPassword) {
       mensaje.textContent = "❌ Las contraseñas no coinciden.";
+      mensaje.style.color = "red";
+      return;
+    }
+
+    if (password.length < 6) {
+      mensaje.textContent = "❌ La contraseña debe tener al menos 6 caracteres.";
       mensaje.style.color = "red";
       return;
     }
@@ -28,18 +40,17 @@ if (regForm) {
           username, 
           email, 
           password,
-          admin: adminValue // Enviamos el valor al backend
+          admin: adminValue
         })
       });
       
       const result = await response.json();
       
       if (response.ok) {
-        mensaje.textContent = "✅ Usuario registrado con éxito.";
+        mensaje.textContent = "✅ Usuario registrado con éxito. Redirigiendo...";
         mensaje.style.color = "green";
         regForm.reset();
         
-        // Redirigir después de 2 segundos
         setTimeout(() => {
           window.location.href = 'login.html';
         }, 2000);
@@ -49,7 +60,7 @@ if (regForm) {
       }
     } catch (error) {
       console.error('Error:', error);
-      mensaje.textContent = "❌ Error de red o servidor.";
+      mensaje.textContent = "❌ Error de conexión con el servidor.";
       mensaje.style.color = "red";
     }
   });
@@ -85,7 +96,7 @@ if (loginForm) {
       
       const result = await response.json();
       
-      if (response.ok) {
+      if (response.ok) {        
         if (result.success) {
           alert("¡Sesión iniciada correctamente!");
           mensaje.textContent = "";
@@ -94,6 +105,7 @@ if (loginForm) {
           // Guardar token o datos de usuario si es necesario
           if (result.token) {
             localStorage.setItem('authToken', result.token);
+            localStorage.setItem('userData', JSON.stringify(result.user));
           }
           
           // Redirección según el campo admin
@@ -113,6 +125,18 @@ if (loginForm) {
     } catch (error) {
       console.error('Error:', error);
       mensaje.textContent = "❌ Error de conexión con el servidor.";
+    }
+
+    // Verificar si ya está logueado al cargar la página
+    if (localStorage.getItem('authToken')) {
+      const user = JSON.parse(localStorage.getItem('userData'));
+      if (user.admin === 0) {
+        window.location.href = 'part.html';
+      } else if (user.admin === 1) {
+        window.location.href = 'organ.html';
+      } else if (user.admin === 2) {
+        window.location.href = 'admin.html';
+      }
     }
   });
 }

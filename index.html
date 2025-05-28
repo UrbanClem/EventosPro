@@ -26,10 +26,19 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"></li>
         </ul>
-        <div class="d-flex ms-3">
+        
+        <!-- Sección para usuarios NO autenticados -->
+        <div id="nav-auth-section" class="d-flex ms-3">
           <a href="inv.html" class="btn btn-secondary-custom me-2">Eventos</a>
-          <a href="register.html" class="btn btn-primary-custom">Registrarse</a>
           <a href="login.html" class="btn btn-outline-light me-2">Iniciar Sesión</a>
+          <a href="register.html" class="btn btn-primary-custom">Registrarse</a>
+        </div>
+
+        <!-- Sección para usuarios autenticados (oculta inicialmente) -->
+        <div id="nav-user-section" class="d-flex align-items-center ms-3" style="display: none;">
+          <a href="inv.html" class="btn btn-secondary-custom me-2">Eventos</a>
+          <span class="text-light me-3" id="nav-username"></span>
+          <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
         </div>
       </div>
     </div>
@@ -43,8 +52,8 @@
         <h1 class="display-4 fw-bold mb-4">Crea y gestiona eventos de forma sencilla</h1>
         <p class="lead mb-5">Plataforma completa para organizar, gestionar y participar en eventos culturales, deportivos, educativos y sociales.</p>
         <div class="d-flex justify-content-center flex-wrap">
-          <a href="#" class="btn btn-primary-custom mb-2">Registrarse</a>
-          <a href="#" class="btn btn-outline-custom mb-2">Iniciar Sesión</a>
+          <a href="register.html" class="btn btn-primary-custom mb-2">Registrarse</a>
+          <a href="login.html" class="btn btn-outline-custom mb-2">Iniciar Sesión</a>
         </div>
       </div>
     </section>
@@ -223,5 +232,50 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Script para manejar la autenticación -->
+  <script>
+    // Función para verificar el estado de autenticación
+    function checkAuthState() {
+      const authToken = localStorage.getItem('authToken');
+      const navAuthSection = document.getElementById('nav-auth-section');
+      const navUserSection = document.getElementById('nav-user-section');
+      const navUsername = document.getElementById('nav-username');
+
+      if (authToken) {
+        // Usuario autenticado
+        navAuthSection.style.display = 'none';
+        navUserSection.style.display = 'flex';
+        
+        // Obtener nombre de usuario del localStorage si está disponible
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+          try {
+            const user = JSON.parse(userData);
+            if (user.username) {
+              navUsername.textContent = user.username;
+            }
+          } catch (e) {
+            console.error('Error al parsear userData:', e);
+          }
+        }
+      } else {
+        // Usuario no autenticado
+        navAuthSection.style.display = 'flex';
+        navUserSection.style.display = 'none';
+      }
+    }
+
+    // Función para cerrar sesión
+    function cerrarSesion() {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userData');
+      checkAuthState();
+      window.location.href = 'index.html';
+    }
+
+    // Verificar estado al cargar la página
+    document.addEventListener('DOMContentLoaded', checkAuthState);
+  </script>
 </body>
 </html>
