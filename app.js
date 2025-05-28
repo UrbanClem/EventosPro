@@ -7,6 +7,7 @@ const PORT = 3000;
 // Middlewares
 app.use(cors());
 app.use(express.json());
+console.log("✅ Middleware JSON cargado");
 
 // Importación de rutas
 const usuariosRoutes = require('./routes/usuariosRoutes');
@@ -14,6 +15,8 @@ const authRoutes = require('./routes/authRoutes');
 const sedeRoutes = require('./routes/sedeRoutes');
 const eventosRoutes = require('./routes/eventosRoutes');
 const testRoutes = require('./routes/testRoutes');
+const inscripcionesRoutes = require('./routes/inscripcionesRoutes');
+
 
 // Rutas
 app.use('/prueba', (req, res) => {
@@ -24,7 +27,8 @@ app.use('/api', [
   usuariosRoutes,
   authRoutes,
   sedeRoutes,
-  eventosRoutes
+  eventosRoutes,
+  inscripcionesRoutes
 ]);
 
 app.use('/test', testRoutes);

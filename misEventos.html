@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mis Eventos - EventosPro</title>
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Font Awesome para iconos -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- CSS Global y específico para Mis Eventos -->
-  <link rel="stylesheet" href="CSS/styleIndex.css">
-  <link rel="stylesheet" href="CSS/styleMisEventos.css">
+  <link rel="stylesheet" href="CSS/styleIndex.css" />
+  <link rel="stylesheet" href="CSS/styleMisEventos.css" />
 </head>
 <body class="d-flex flex-column min-vh-100">
   <!-- Barra de navegación idéntica a las otras páginas -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <a class="navbar-brand" href="index.html">EventosPro - Participante</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMisEventos" 
-              aria-controls="navbarMisEventos" aria-expanded="false" aria-label="Toggle navigation">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarMisEventos"
+        aria-controls="navbarMisEventos"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarMisEventos">
@@ -34,66 +41,41 @@
     <div class="container my-4">
       <!-- Título -->
       <h1 class="text-center mb-4">Mis eventos</h1>
-      
-      <!-- Estructura (tabla) para los eventos registrados -->
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle">
-          <thead class="table-light">
-            <tr>
-              <th>Nombre del Evento</th>
-              <th>Descripción</th>
-              <th>Tipo</th>
-              <th>Fecha y Hora</th>
-              <th>Dirección</th>
-              <th>Capacidad</th>
-              <th>Tipo de Inscripción</th>
-            </tr>
-          </thead>
-          <tbody id="misEventosTableBody">
-            <tr>
-              <td colspan="7" class="text-center">No hay eventos registrados.</td>
-            </tr>
-          </tbody>
-        </table>
+
+      <!-- Contenedor de eventos -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="eventosContainer">
+        <!-- Mensaje inicial de carga -->
+        <div class="col-12 text-center my-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p>Cargando eventos...</p>
+        </div>
       </div>
     </div>
   </main>
 
-  <!-- Pie de página -->
-  <footer>
+  <!-- Pie de Página -->
+  <footer class="bg-indigo-600 text-white py-6">
     <div class="container">
       <div class="row">
         <div class="col-md-4 mb-4">
           <h3>EventosPro</h3>
-          <p>La plataforma líder para la creación y gestión de eventos. Conectamos organizadores con participantes para experiencias inolvidables.</p>
+          <p>La plataforma líder para la creación y gestión de eventos.</p>
         </div>
         <div class="col-md-2 mb-4">
           <h5>Enlaces Rápidos</h5>
           <div class="footer-links">
-            <a href="index.html">Inicio</a>
-            <a href="index.html">Eventos</a>
-            <a href="index.html">Sobre Nosotros</a>
-            <a href="index.html">Contacto</a>
-            <a href="index.html">Política de Privacidad</a>
+            <a href="index.html" class="text-white">Inicio</a>
+            <a href="index.html" class="text-white">Eventos</a>
           </div>
         </div>
         <div class="col-md-3 mb-4">
           <h5>Contacto</h5>
-          <p><i class="fas fa-map-marker-alt me-2"></i> Universidad de Colima, Facultad de Telemática</p>
-          <p><i class="fas fa-phone me-2"></i> +123 456 7890</p>
           <p><i class="fas fa-envelope me-2"></i> infoeventos@gmail.com</p>
         </div>
-        <div class="col-md-3 mb-4">
-          <h5>Síguenos</h5>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-          </div>
-        </div>
       </div>
-      <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+      <hr class="my-4" style="border-color: rgba(255,255,255,0.1);" />
       <div class="text-center">
         <p class="mb-0">© 2025 EventosPro. Todos los derechos reservados.</p>
       </div>
@@ -102,5 +84,175 @@
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarMisEventos();
+    });
+
+    // Mostrar estado de carga
+    function showLoading() {
+      document.getElementById('eventosContainer').innerHTML = `
+        <div class="col-12 text-center my-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p>Cargando eventos...</p>
+        </div>
+      `;
+    }
+
+    // Función para cargar eventos en los que el usuario está inscrito
+    async function cargarMisEventos() {
+      try {
+        showLoading();
+
+        const token = localStorage.getItem('authToken');
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        const userId = userData?.id;
+
+        if (!token || !userId) {
+          document.getElementById('eventosContainer').innerHTML = `
+            <div class="col-12 text-center m-5">
+              <div class="alert alert-warning">Debes iniciar sesión para ver tus eventos inscritos.</div>
+            </div>
+          `;
+          return;
+        }
+
+        // Obtener relaciones usuario-evento
+        const relacionesRes = await fetch('http://localhost:3000/api/eventos-usuarios', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!relacionesRes.ok) {
+          throw new Error((await relacionesRes.text()) || 'Error al obtener relaciones usuario-evento');
+        }
+
+        const relaciones = await relacionesRes.json();
+        const eventosIds = relaciones.filter((r) => r.id_usuario == userId).map((r) => r.id_evento);
+
+        if (eventosIds.length === 0) {
+          document.getElementById('eventosContainer').innerHTML = `
+            <div class="col-12 text-center m-5">
+              <div class="alert alert-info">No estás inscrito en ningún evento.</div>
+            </div>
+          `;
+          return;
+        }
+
+        // Obtener todos los eventos y filtrar los del usuario
+        const eventosRes = await fetch('http://localhost:3000/api/eventos', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!eventosRes.ok) {
+          throw new Error((await eventosRes.text()) || 'Error al obtener eventos');
+        }
+
+        const todosEventos = await eventosRes.json();
+        const eventosUsuario = todosEventos.filter((e) => eventosIds.includes(e.id));
+
+        mostrarEventosInscritos(eventosUsuario);
+      } catch (error) {
+        document.getElementById('eventosContainer').innerHTML = `
+          <div class="col-12">
+            <div class="alert alert-danger text-center m-3">
+              Error al cargar tus eventos: ${error.message}
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Función para mostrar eventos en tarjetas
+    function mostrarEventosInscritos(eventos) {
+      const container = document.getElementById('eventosContainer');
+      if (!eventos || eventos.length === 0) {
+        container.innerHTML = `
+          <div class="col-12">
+            <div class="alert alert-info text-center m-3">
+              No estás inscrito en ningún evento.
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = eventos
+        .map((evento) => {
+          const esEventoPasado = new Date(evento.fechayhora) < new Date();
+
+          return `
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                  <h5 class="card-title mb-0">${evento.nombre}</h5>
+                  <small>${evento.tipo}</small>
+                </div>
+                <div class="card-body">
+                  <p class="card-text">${evento.descripcion}</p>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <i class="fas fa-calendar-alt me-2"></i>
+                      ${new Date(evento.fechayhora).toLocaleString()}
+                      ${
+                        esEventoPasado ? '<span class="badge bg-danger ms-2">Finalizado</span>' : ''
+                      }
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fas fa-map-marker-alt me-2"></i>
+                      ${evento.direccion}
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fas fa-tag me-2"></i>
+                      ${evento.inscripcion}
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-footer bg-transparent text-center">
+                  ${
+                    esEventoPasado
+                      ? `<button class="btn btn-secondary" disabled>Evento finalizado</button>`
+                      : `<button class="btn btn-danger" onclick="salirEvento(${evento.id})">Salir del evento</button>`
+                  }
+                </div>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    async function salirEvento(eventoId) {
+      if (!confirm('¿Estás seguro que quieres salir de este evento?')) return;
+
+      try {
+        const token = localStorage.getItem('authToken');
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        const id_usuario = userData?.id;
+
+        if (!token || !id_usuario) throw new Error('No autorizado');
+
+        const response = await fetch(`http://localhost:3000/api/eventos-usuarios`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ id_usuario, id_evento: eventoId }),
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.message || 'Error al salir del evento');
+        }
+
+        alert('Has salido del evento.');
+        cargarMisEventos();
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+  </script>
 </body>
 </html>

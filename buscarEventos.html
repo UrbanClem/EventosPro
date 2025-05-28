@@ -10,22 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- CSS Global y específico para Buscar Eventos -->
   <link rel="stylesheet" href="CSS/styleIndex.css">
-  <link rel="stylesheet" href="CSS/styleBuscarEven.css">
-  <style>
-    .spinner-border {
-      display: none;
-      width: 1.5rem;
-      height: 1.5rem;
-      margin-left: 5px;
-      vertical-align: middle;
-    }
-    .btn-loading .spinner-border {
-      display: inline-block;
-    }
-    .btn-loading {
-      position: relative;
-    }
-  </style>
+  <link rel="stylesheet" href="CSS/styleBuscarEven.css">  
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -57,10 +42,6 @@
               <option value="social">Social</option>
             </select>
           </div>
-          <div class="col-md-4">
-            <label for="fechaHoraEvento" class="form-label">Fecha y Hora</label>
-            <input type="datetime-local" id="fechaHoraEvento" class="form-control">
-          </div>
         </div>
         <div class="row mt-3">
           <div class="col text-center">
@@ -72,26 +53,15 @@
         </div>
       </form>
       
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle">
-          <thead class="table-light">
-            <tr>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th>Tipo</th>
-              <th>Fecha y Hora</th>
-              <th>Dirección</th>
-              <th>Capacidad</th>
-              <th>Inscripción</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody id="eventosTableBody">
-            <tr>
-              <td colspan="8" class="text-center">Cargando eventos...</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Contenedor de eventos -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="eventosContainer">
+        <!-- Mensaje inicial de carga -->
+        <div class="col-12 text-center my-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p>Cargando eventos...</p>
+        </div>
       </div>
     </div>
   </main>
@@ -126,7 +96,7 @@
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Script mejorado para buscar eventos -->
+  <!-- Script para buscar eventos -->
   <script>
     // Cargar eventos al iniciar la página
     document.addEventListener('DOMContentLoaded', () => {
@@ -134,29 +104,62 @@
       setupForm();
     });
 
-    // Configurar el formulario
+    // Configurar el formulario con búsqueda en tiempo real
     function setupForm() {
       const form = document.getElementById('searchForm');
-      const submitBtn = form.querySelector('button[type="submit"]');
+      const nombreInput = document.getElementById('nombreEvento');
+      const tipoSelect = document.getElementById('tipoEvento');
       
+      // Configurar el evento submit (para cuando presionan Enter o el botón)
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
-        submitBtn.classList.add('btn-loading');
-        
-        const filtros = {
-          nombre: document.getElementById('nombreEvento').value,
-          tipo: document.getElementById('tipoEvento').value,
-          fecha: document.getElementById('fechaHoraEvento').value
-        };
-        
-        try {
-          await cargarEventos(filtros);
-        } catch (error) {
-          console.error('Error:', error);
-        } finally {
-          submitBtn.classList.remove('btn-loading');
-        }
+        await realizarBusqueda();
       });
+      
+      // Búsqueda en tiempo real mientras escriben (con debounce)
+      nombreInput.addEventListener('input', debounce(async () => {
+        await realizarBusqueda();
+      }, 300));
+      
+      // Búsqueda al cambiar otros filtros
+      tipoSelect.addEventListener('change', async () => {
+        await realizarBusqueda();
+      });
+    }
+
+    // Función debounce para evitar múltiples llamadas mientras se escribe
+    function debounce(func, timeout = 300) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+      };
+    }
+
+    // Función para realizar la búsqueda con los filtros actuales
+    async function realizarBusqueda() {
+      const submitBtn = document.querySelector('#searchForm button[type="submit"]');
+      submitBtn.classList.add('btn-loading');
+      
+      const filtros = {
+        nombre: document.getElementById('nombreEvento').value,
+        tipo: document.getElementById('tipoEvento').value
+      };
+      
+      try {
+        await cargarEventos(filtros);
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('eventosContainer').innerHTML = `
+          <div class="col-12">
+            <div class="alert alert-danger text-center m-3">
+              Error al cargar eventos: ${error.message}
+            </div>
+          </div>
+        `;
+      } finally {
+        submitBtn.classList.remove('btn-loading');
+      }
     }
 
     // Función para cargar eventos desde la API
@@ -167,7 +170,6 @@
         const params = new URLSearchParams();
         if (filtros.nombre) params.append('nombre', filtros.nombre);
         if (filtros.tipo) params.append('tipo', filtros.tipo);
-        if (filtros.fecha) params.append('fecha', filtros.fecha);
 
         const token = localStorage.getItem('authToken');
         const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
@@ -185,79 +187,129 @@
         
       } catch (error) {
         console.error('Error:', error);
-        document.getElementById('eventosTableBody').innerHTML = `
-          <tr>
-            <td colspan="8" class="text-center text-danger">Error al cargar eventos: ${error.message}</td>
-          </tr>
+        document.getElementById('eventosContainer').innerHTML = `
+          <div class="col-12">
+            <div class="alert alert-danger text-center m-3">
+              Error al cargar eventos: ${error.message}
+            </div>
+          </div>
         `;
       }
+    }
+
+    // Configurar el formulario con búsqueda en tiempo real
+    function setupForm() {
+      const form = document.getElementById('searchForm');
+      const nombreInput = document.getElementById('nombreEvento');
+      const tipoSelect = document.getElementById('tipoEvento');
+      
+      // Configurar el evento submit (para cuando presionan Enter o el botón)
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        await realizarBusqueda();
+      });
+      
+      // Búsqueda en tiempo real mientras escriben (con debounce)
+      nombreInput.addEventListener('input', debounce(async () => {
+        await realizarBusqueda();
+      }, 300));
+      
+      // Búsqueda al cambiar otros filtros
+      tipoSelect.addEventListener('change', async () => {
+        await realizarBusqueda();
+      });
     }
 
     // Mostrar estado de carga
     function showLoading() {
-      document.getElementById('eventosTableBody').innerHTML = `
-        <tr>
-          <td colspan="8" class="text-center">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Cargando...</span>
-            </div>
-          </td>
-        </tr>
+      document.getElementById('eventosContainer').innerHTML = `
+        <div class="col-12 text-center my-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p>Cargando eventos...</p>
+        </div>
       `;
     }
 
-    // Función para mostrar eventos en la tabla
+    // Función para mostrar eventos en tarjetas
     function mostrarEventos(eventos) {
-      const tbody = document.getElementById('eventosTableBody');
+      const container = document.getElementById('eventosContainer');
       const token = localStorage.getItem('authToken');
       const userData = token ? JSON.parse(localStorage.getItem('userData')) || {} : {};
       
-      if (eventos.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="8" class="text-center">No se encontraron eventos.</td>
-          </tr>
+      if (!eventos || eventos.length === 0) {
+        container.innerHTML = `
+          <div class="col-12">
+            <div class="alert alert-info text-center m-3">
+              No se encontraron eventos.
+            </div>
+          </div>
         `;
         return;
       }
 
-      tbody.innerHTML = eventos.map(evento => {
-        const capacidadTexto = evento.capacidad === null ? 'Ilimitado' : `${evento.inscritos || 0}/${evento.capacidad}`;
-        const capacidadDisponible = evento.capacidad === null ? true : (evento.capacidad - (evento.inscritos || 0)) > 0;
+      container.innerHTML = eventos.map(evento => {
+        const esEventoPasado = new Date(evento.fechayhora) < new Date();
+        const capacidadTexto = evento.capacidad === null ? 'Ilimitada' : `${evento.inscritos || 0}/${evento.capacidad}`;
+        const sinCupo = evento.capacidad !== null && evento.capacidad <= (evento.inscritos || 0);
         const yaInscrito = token && evento.inscritosUsuarios?.includes(userData.id);
         
         return `
-          <tr>
-            <td>${evento.nombre}</td>
-            <td>${evento.descripcion}</td>
-            <td>${evento.tipo}</td>
-            <td>${new Date(evento.fechayhora).toLocaleString()}</td>
-            <td>${evento.direccion}</td>
-            <td>${capacidadTexto}</td>
-            <td>${evento.inscripcion}</td>
-            <td class="text-center">
-              ${!token ? `
-                <button class="btn btn-sm btn-outline-secondary" disabled title="Inicia sesión para inscribirte">
-                  Inscribirse
-                </button>
-              ` : yaInscrito ? `
-                <button class="btn btn-sm btn-success" disabled>
-                  ✅ Inscrito
-                </button>
-              ` : !capacidadDisponible ? `
-                <button class="btn btn-sm btn-danger" disabled>
-                  Sin cupo
-                </button>
-              ` : `
-                <button class="btn btn-sm btn-primary btn-inscribir" 
-                        onclick="inscribirse(this, ${evento.id})"
-                        data-capacidad="${evento.capacidad}">
-                  Inscribirse
-                  <span class="spinner-border spinner-border-sm"></span>
-                </button>
-              `}
-            </td>
-          </tr>
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">${evento.nombre}</h5>
+                <small>${evento.tipo}</small>
+              </div>
+              <div class="card-body">
+                <p class="card-text">${evento.descripcion}</p>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <i class="fas fa-calendar-alt me-2"></i>
+                    ${new Date(evento.fechayhora).toLocaleString()}
+                    ${esEventoPasado ? '<span class="badge bg-danger ms-2">Finalizado</span>' : ''}
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    ${evento.direccion}
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-users me-2"></i>
+                    Capacidad: ${capacidadTexto}
+                    ${sinCupo ? '<span class="badge bg-warning text-dark ms-2">Sin cupo</span>' : ''}
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-tag me-2"></i>
+                    ${evento.inscripcion}
+                  </li>
+                </ul>
+              </div>
+              <div class="card-footer bg-transparent text-center">
+                ${esEventoPasado ? `
+                  <button class="btn btn-secondary" disabled>Evento finalizado</button>
+                ` : !token ? `
+                  <button class="btn btn-outline-primary" onclick="window.location.href='login.html'">
+                    Inicia sesión para inscribirte
+                  </button>
+                ` : yaInscrito ? `
+                  <button class="btn btn-success" disabled>
+                    ✅ Ya estás inscrito
+                  </button>
+                ` : sinCupo ? `
+                  <button class="btn btn-danger" disabled>
+                    Sin cupo disponible
+                  </button>
+                ` : `
+                  <button class="btn btn-primary btn-inscribir" 
+                          onclick="inscribirse(this, ${evento.id})">
+                    Inscribirse
+                    <span class="spinner-border spinner-border-sm"></span>
+                  </button>
+                `}
+              </div>
+            </div>
+          </div>
         `;
       }).join('');
     }
@@ -274,12 +326,12 @@
           return;
         }
 
-        const userData = JSON.parse(localStorage.getItem('userData') || {});
+        const userData = JSON.parse(localStorage.getItem('userData')) || {};
         if (!userData.id) {
           throw new Error('No se encontraron datos de usuario válidos');
         }
 
-        const response = await fetch('http://localhost:3000/api/inscribirse', {
+        const response = await fetch('http://localhost:3000/api/eventos-usuarios', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
