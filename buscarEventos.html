@@ -11,13 +11,27 @@
   <!-- CSS Global y específico para Buscar Eventos -->
   <link rel="stylesheet" href="CSS/styleIndex.css">
   <link rel="stylesheet" href="CSS/styleBuscarEven.css">
+  <style>
+    .spinner-border {
+      display: none;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+    .btn-loading .spinner-border {
+      display: inline-block;
+    }
+    .btn-loading {
+      position: relative;
+    }
+  </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Barra de Navegación -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-primary">
     <div class="container">
-      <!-- Se muestra la marca -->
       <a class="navbar-brand" href="index.html">EventosPro</a>
     </div>
   </nav>
@@ -25,18 +39,14 @@
   <!-- Contenido principal -->
   <main class="flex-fill">
     <div class="container my-4">
-      <!-- Título de la Página -->
       <h1 class="mb-4 text-center">Buscar Eventos</h1>
       
-      <!-- Formulario de Búsqueda y Filtros -->
       <form id="searchForm" class="mb-4">
         <div class="row g-3">
-          <!-- Primer campo: Nombre del Evento -->
           <div class="col-md-4">
             <label for="nombreEvento" class="form-label">Nombre del Evento</label>
             <input type="text" id="nombreEvento" class="form-control" placeholder="Ingrese el nombre del evento">
           </div>
-          <!-- Segundo campo: Tipo de Evento -->
           <div class="col-md-4">
             <label for="tipoEvento" class="form-label">Tipo de Evento</label>
             <select id="tipoEvento" class="form-select">
@@ -47,7 +57,6 @@
               <option value="social">Social</option>
             </select>
           </div>
-          <!-- Tercer campo: Fecha y Hora del Evento -->
           <div class="col-md-4">
             <label for="fechaHoraEvento" class="form-label">Fecha y Hora</label>
             <input type="datetime-local" id="fechaHoraEvento" class="form-control">
@@ -55,18 +64,34 @@
         </div>
         <div class="row mt-3">
           <div class="col text-center">
-            <button type="submit" class="btn btn-primary-custom">Buscar</button>
+            <button type="submit" class="btn btn-primary-custom">
+              Buscar
+              <span class="spinner-border spinner-border-sm"></span>
+            </button>
           </div>
         </div>
       </form>
       
-      <!-- Tabla para mostrar la lista de eventos -->
-      <!-- Contenedor de Tarjetas de Eventos -->
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="eventosContainer">
-        <!-- Mensaje cuando no hay eventos -->
-        <div class="col" id="sinEventos">
-          <div class="alert alert-info m-3">No se encontraron eventos.</div>
-        </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Tipo</th>
+              <th>Fecha y Hora</th>
+              <th>Dirección</th>
+              <th>Capacidad</th>
+              <th>Inscripción</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="eventosTableBody">
+            <tr>
+              <td colspan="8" class="text-center">Cargando eventos...</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </main>
@@ -77,32 +102,18 @@
       <div class="row">
         <div class="col-md-4 mb-4">
           <h3>EventosPro</h3>
-          <p>La plataforma líder para la creación y gestión de eventos. Conectamos organizadores con participantes para experiencias inolvidables.</p>
+          <p>La plataforma líder para la creación y gestión de eventos.</p>
         </div>
         <div class="col-md-2 mb-4">
           <h5>Enlaces Rápidos</h5>
           <div class="footer-links">
             <a href="index.html" class="text-white">Inicio</a>
             <a href="index.html" class="text-white">Eventos</a>
-            <a href="index.html" class="text-white">Sobre Nosotros</a>
-            <a href="index.html" class="text-white">Contacto</a>
-            <a href="index.html" class="text-white">Política de Privacidad</a>
           </div>
         </div>
         <div class="col-md-3 mb-4">
           <h5>Contacto</h5>
-          <p><i class="fas fa-map-marker-alt me-2"></i> Universidad de Colima, Facultad de Telemática</p>
-          <p><i class="fas fa-phone me-2"></i> +123 456 7890</p>
           <p><i class="fas fa-envelope me-2"></i> infoeventos@gmail.com</p>
-        </div>
-        <div class="col-md-3 mb-4">
-          <h5>Síguenos</h5>
-          <div class="social-icons">
-            <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
-            <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-white"><i class="fab fa-linkedin"></i></a>
-          </div>
         </div>
       </div>
       <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
@@ -115,24 +126,58 @@
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Script para el formulario (SE DEJA EXACTAMENTE COMO LO ENVIASTE AL INICIO) -->
+  <!-- Script mejorado para buscar eventos -->
   <script>
     // Cargar eventos al iniciar la página
-    document.addEventListener('DOMContentLoaded', cargarEventos);
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarEventos();
+      setupForm();
+    });
+
+    // Configurar el formulario
+    function setupForm() {
+      const form = document.getElementById('searchForm');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        submitBtn.classList.add('btn-loading');
+        
+        const filtros = {
+          nombre: document.getElementById('nombreEvento').value,
+          tipo: document.getElementById('tipoEvento').value,
+          fecha: document.getElementById('fechaHoraEvento').value
+        };
+        
+        try {
+          await cargarEventos(filtros);
+        } catch (error) {
+          console.error('Error:', error);
+        } finally {
+          submitBtn.classList.remove('btn-loading');
+        }
+      });
+    }
 
     // Función para cargar eventos desde la API
     async function cargarEventos(filtros = {}) {
       try {
-        // Construir parámetros de búsqueda
+        showLoading();
+        
         const params = new URLSearchParams();
+        if (filtros.nombre) params.append('nombre', filtros.nombre);
         if (filtros.tipo) params.append('tipo', filtros.tipo);
         if (filtros.fecha) params.append('fecha', filtros.fecha);
-        if (filtros.ubicacion) params.append('ubicacion', filtros.ubicacion);
 
-        const response = await fetch(`http://localhost:3000/api/eventos?${params.toString()}`);
+        const token = localStorage.getItem('authToken');
+        const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+        
+        const response = await fetch(`http://localhost:3000/api/eventos?${params.toString()}`, {
+          headers
+        });
         
         if (!response.ok) {
-          throw new Error('Error al cargar eventos');
+          throw new Error(await response.text() || 'Error al cargar eventos');
         }
         
         const eventos = await response.json();
@@ -148,74 +193,118 @@
       }
     }
 
+    // Mostrar estado de carga
+    function showLoading() {
+      document.getElementById('eventosTableBody').innerHTML = `
+        <tr>
+          <td colspan="8" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+
     // Función para mostrar eventos en la tabla
     function mostrarEventos(eventos) {
-  const container = document.getElementById('eventosContainer');
-  const sinEventos = document.getElementById('sinEventos');
-  
-  if (eventos.length === 0) {
-    sinEventos.style.display = 'block';
-    container.innerHTML = '';
-    return;
-  }
-  
-  sinEventos.style.display = 'none';
-  container.innerHTML = eventos.map(evento => `
-    <div class="col">
-      <div class="card h-100 shadow-sm">
-        <div class="card-header bg-primary text-white">
-          <h5 class="card-title mb-0">${evento.nombre}</h5>
-          <small>${evento.tipo}</small>
-        </div>
-        <div class="card-body">
-          <p class="card-text">${evento.descripcion}</p>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <i class="fas fa-calendar-alt me-2"></i>
-              ${new Date(evento.fechayhora).toLocaleString()}
-            </li>
-            <li class="list-group-item">
-              <i class="fas fa-map-marker-alt me-2"></i>
-              ${evento.direccion}
-            </li>
-            <li class="list-group-item">
-              Capacidad: ${evento.capacidad} personas
-            </li>
-            <li class="list-group-item">
-              Inscripción: ${evento.inscripcion}
-            </li>
-          </ul>
-        </div>
-        <div class="card-footer bg-transparent">
-          <button class="btn btn-primary w-100" 
-                  onclick="inscribirse(${evento.id}, ${evento.precio})">
-            Inscribirse
-          </button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-    // Función para manejar el formulario de búsqueda
-    document.getElementById('searchForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+      const tbody = document.getElementById('eventosTableBody');
+      const token = localStorage.getItem('authToken');
+      const userData = token ? JSON.parse(localStorage.getItem('userData')) || {} : {};
       
-      const filtros = {
-        tipo: document.getElementById('tipoEvento').value,
-        fecha: document.getElementById('fechaEvento').value,
-        ubicacion: document.getElementById('ubicacionEvento').value
-      };
-      
-      cargarEventos(filtros);
-    });
+      if (eventos.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" class="text-center">No se encontraron eventos.</td>
+          </tr>
+        `;
+        return;
+      }
 
-    // Función para inscribirse (simulada)
-    function inscribirse(eventoId, precio) {
-      if (precio > 0) {
-        alert(`Redirigiendo a página de pago para el evento ${eventoId}\nPrecio: $${precio}`);
-      } else {
-        alert(`Inscripción exitosa al evento ${eventoId}`);
+      tbody.innerHTML = eventos.map(evento => {
+        const capacidadTexto = evento.capacidad === null ? 'Ilimitado' : `${evento.inscritos || 0}/${evento.capacidad}`;
+        const capacidadDisponible = evento.capacidad === null ? true : (evento.capacidad - (evento.inscritos || 0)) > 0;
+        const yaInscrito = token && evento.inscritosUsuarios?.includes(userData.id);
+        
+        return `
+          <tr>
+            <td>${evento.nombre}</td>
+            <td>${evento.descripcion}</td>
+            <td>${evento.tipo}</td>
+            <td>${new Date(evento.fechayhora).toLocaleString()}</td>
+            <td>${evento.direccion}</td>
+            <td>${capacidadTexto}</td>
+            <td>${evento.inscripcion}</td>
+            <td class="text-center">
+              ${!token ? `
+                <button class="btn btn-sm btn-outline-secondary" disabled title="Inicia sesión para inscribirte">
+                  Inscribirse
+                </button>
+              ` : yaInscrito ? `
+                <button class="btn btn-sm btn-success" disabled>
+                  ✅ Inscrito
+                </button>
+              ` : !capacidadDisponible ? `
+                <button class="btn btn-sm btn-danger" disabled>
+                  Sin cupo
+                </button>
+              ` : `
+                <button class="btn btn-sm btn-primary btn-inscribir" 
+                        onclick="inscribirse(this, ${evento.id})"
+                        data-capacidad="${evento.capacidad}">
+                  Inscribirse
+                  <span class="spinner-border spinner-border-sm"></span>
+                </button>
+              `}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Función para inscribirse a un evento
+    async function inscribirse(btn, eventoId) {
+      try {
+        btn.classList.add('btn-loading');
+        btn.disabled = true;
+        
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+          window.location.href = 'login.html';
+          return;
+        }
+
+        const userData = JSON.parse(localStorage.getItem('userData') || {});
+        if (!userData.id) {
+          throw new Error('No se encontraron datos de usuario válidos');
+        }
+
+        const response = await fetch('http://localhost:3000/api/inscribirse', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            id_usuario: userData.id,
+            id_evento: eventoId
+          })
+        });
+
+        if (!response.ok) {
+          const error = await response.json().catch(() => ({}));
+          throw new Error(error.message || 'Error en la solicitud');
+        }
+
+        const result = await response.json();
+        alert('✅ Inscripción exitosa!');
+        cargarEventos();
+        
+      } catch (error) {
+        console.error('Error al inscribirse:', error);
+        alert(`❌ Error: ${error.message || 'No se pudo completar la inscripción'}`);
+        btn.classList.remove('btn-loading');
+        btn.disabled = false;
       }
     }
   </script>

@@ -24,21 +24,23 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"></li>
         </ul>
         
-        <!-- Sección para usuarios NO autenticados -->
-        <div id="nav-auth-section" class="d-flex ms-3">
-          <a href="inv.html" class="btn btn-secondary-custom me-2">Eventos</a>
-          <a href="login.html" class="btn btn-outline-light me-2">Iniciar Sesión</a>
-          <a href="register.html" class="btn btn-primary-custom">Registrarse</a>
-        </div>
-
-        <!-- Sección para usuarios autenticados (oculta inicialmente) -->
-        <div id="nav-user-section" class="d-flex align-items-center ms-3" style="display: none;">
-          <a href="inv.html" class="btn btn-secondary-custom me-2">Eventos</a>
-          <span class="text-light me-3" id="nav-username"></span>
-          <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+        <!-- Sección de autenticación -->
+        <div id="auth-buttons" class="d-flex ms-3">
+          <!-- Botones para NO autenticados -->
+          <div id="guest-buttons">
+            <a href="inv.html" class="btn btn-secondary-custom me-2">Eventos</a>
+            <a href="login.html" class="btn btn-outline-light me-2">Iniciar Sesión</a>
+            <a href="register.html" class="btn btn-primary-custom">Registrarse</a>
+          </div>
+          
+          <!-- Botones para autenticados -->
+          <div id="user-buttons" style="display: none;">
+            <a id="user-main-button" href="#" class="btn btn-secondary-custom me-2"></a>
+            <button id="username-display" class="btn btn-username me-3" disabled></button>
+            <button class="btn btn-danger" id="logout-button">Cerrar Sesión</button>
+          </div>
         </div>
       </div>
     </div>
@@ -52,8 +54,6 @@
         <h1 class="display-4 fw-bold mb-4">Crea y gestiona eventos de forma sencilla</h1>
         <p class="lead mb-5">Plataforma completa para organizar, gestionar y participar en eventos culturales, deportivos, educativos y sociales.</p>
         <div class="d-flex justify-content-center flex-wrap">
-          <a href="register.html" class="btn btn-primary-custom mb-2">Registrarse</a>
-          <a href="login.html" class="btn btn-outline-custom mb-2">Iniciar Sesión</a>
         </div>
       </div>
     </section>
@@ -182,8 +182,6 @@
         <h2 class="display-5 fw-bold mb-4">¿Listo para gestionar tus eventos?</h2>
         <p class="lead mb-5">Únete a nuestra plataforma y comienza a crear experiencias inolvidables.</p>
         <div class="d-flex justify-content-center flex-wrap">
-          <a href="register.html" class="btn btn-primary-custom mb-2">Registrarse Ahora</a>
-          <a href="login.html" class="btn btn-outline-custom mb-2">Iniciar Sesión</a>
         </div>
       </div>
     </section>
@@ -235,47 +233,74 @@
   
   <!-- Script para manejar la autenticación -->
   <script>
-    // Función para verificar el estado de autenticación
-    function checkAuthState() {
-      const authToken = localStorage.getItem('authToken');
-      const navAuthSection = document.getElementById('nav-auth-section');
-      const navUserSection = document.getElementById('nav-user-section');
-      const navUsername = document.getElementById('nav-username');
-
-      if (authToken) {
-        // Usuario autenticado
-        navAuthSection.style.display = 'none';
-        navUserSection.style.display = 'flex';
-        
-        // Obtener nombre de usuario del localStorage si está disponible
+    document.addEventListener('DOMContentLoaded', function() {
+      const guestButtons = document.getElementById('guest-buttons');
+      const userButtons = document.getElementById('user-buttons');
+      const usernameDisplay = document.getElementById('username-display');
+      const logoutButton = document.getElementById('logout-button');
+      const userMainButton = document.getElementById('user-main-button');
+      
+      // Verificar estado de autenticación
+      function checkAuth() {
+        const token = localStorage.getItem('authToken');
         const userData = localStorage.getItem('userData');
-        if (userData) {
+        
+        if (token && userData) {
           try {
             const user = JSON.parse(userData);
-            if (user.username) {
-              navUsername.textContent = user.username;
+            guestButtons.style.display = 'none';
+            userButtons.style.display = 'flex';
+            usernameDisplay.textContent = user.username || user.email.split('@')[0];
+            
+            // Configurar botón según tipo de usuario
+            switch(user.admin) {
+              case 0: // Participante
+                userMainButton.textContent = 'Eventos';
+                userMainButton.href = 'part.html';
+                break;
+              case 1: // Organizador
+                userMainButton.textContent = 'Panel de Organizador';
+                userMainButton.href = 'organ.html';
+                break;
+              case 2: // Administrador
+                userMainButton.textContent = 'Panel de Administrador';
+                userMainButton.href = 'admin.html';
+                break;
+              default:
+                userMainButton.textContent = 'Eventos';
+                userMainButton.href = 'part.html';
             }
           } catch (e) {
-            console.error('Error al parsear userData:', e);
+            console.error('Error al analizar datos:', e);
+            clearAuth();
           }
+        } else {
+          clearAuth();
         }
-      } else {
-        // Usuario no autenticado
-        navAuthSection.style.display = 'flex';
-        navUserSection.style.display = 'none';
       }
-    }
-
-    // Función para cerrar sesión
-    function cerrarSesion() {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('userData');
-      checkAuthState();
-      window.location.href = 'index.html';
-    }
-
-    // Verificar estado al cargar la página
-    document.addEventListener('DOMContentLoaded', checkAuthState);
+      
+      // Limpiar autenticación
+      function clearAuth() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+        guestButtons.style.display = 'flex';
+        userButtons.style.display = 'none';
+      }
+      
+      // Manejar cierre de sesión con confirmación
+      logoutButton.addEventListener('click', function() {
+        if(confirm('¿Estás seguro que deseas cerrar sesión?')) {
+          clearAuth();
+          window.location.href = 'index.html';
+        }
+      });
+      
+      // Verificar al cargar
+      checkAuth();
+      
+      // Verificar cada 2 segundos (para cambios en otras pestañas)
+      setInterval(checkAuth, 2000);
+    });
   </script>
 </body>
 </html>
