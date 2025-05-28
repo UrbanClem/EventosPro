@@ -60,6 +60,7 @@
             <div class="col-md-12">
               <label for="dateTime" class="form-label">Fecha y Hora</label>
               <input type="datetime-local" id="dateTime" name="dateTime" required class="form-control">
+              <input type="hidden" id="userId" name="userId" value="">
             </div>
           </div>
         </section>
@@ -164,6 +165,11 @@
     setupCapacityValidation();
   });
 
+  const storedUserData = localStorage.getItem("userData");
+  const userData = JSON.parse(storedUserData); 
+  const userId = userData.id;
+  console.log(userId); 
+
   // Función para cargar sedes desde la API
   async function cargarSedes() {
     try {
@@ -262,7 +268,8 @@
       fechayhora: document.getElementById('dateTime').value,
       sede: document.getElementById('venueSelect').value,
       capacidad: document.getElementById('capacity').value,
-      precio: precio
+      precio: precio,
+      id_usuario: userId, // Usar userId del localStorage
     };
 
     try {
@@ -273,6 +280,9 @@
         },
         body: JSON.stringify(formData)
       });
+
+      // Log para depuración
+      console.log("Datos a enviar:", formData);
 
       if (!response.ok) {
         const errorData = await response.json();

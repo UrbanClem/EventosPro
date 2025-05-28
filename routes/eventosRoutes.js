@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
+const jwt = require('jsonwebtoken');
 
 router.post('/eventos', async (req, res) => {
-  const { nombre, descripcion, categoria, fechayhora, sede, capacidad, precio } = req.body;
+  const { nombre, descripcion, categoria, fechayhora, sede, capacidad, precio, id_usuario } = req.body;
 
   // Validación básica
   if (!nombre || !descripcion || !categoria || !fechayhora || !sede || !capacidad) {
@@ -30,10 +31,13 @@ router.post('/eventos', async (req, res) => {
       });
     }
 
+    // console.log('Datos recibidos:', req.body);
+    // console.log('ID de usuario:', id_usuario, typeof id_usuario);
+
     // Insertar evento
     const [result] = await db.promise().query(
-      'INSERT INTO eventos (nombre, descripcion, categoria, fechayhora, sede, capacidad, precio) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [nombre, descripcion, categoria, fechayhora, sede, capacidad, precio || 0]
+      'INSERT INTO eventos (nombre, descripcion, categoria, fechayhora, sede, capacidad, precio, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [nombre, descripcion, categoria, fechayhora, sede, capacidad, precio || 0, id_usuario]
     );
 
     res.status(201).json({
@@ -108,7 +112,7 @@ router.get('/mis-eventos', async (req, res) => {
     // Decodificar token (cambia 'tu_secreto' por tu clave real)
     let decoded;
     try {
-      decoded = jwt.verify(token, 'tu_secreto');
+      decoded = jwt.verify(token, process.env.JWT_SECRET || 'tu_secreto');
     } catch {
       return res.status(401).json({ message: 'Token inválido' });
     }
@@ -160,5 +164,26 @@ router.get('/mis-eventos', async (req, res) => {
   }
 });
 
+// Ruta para eliminar un evento
+router.delete('/eventos/:id', async (req, res) => {
+  try {
+    const eventId = req.params.id;
+    
+    // Primero verifica si el evento existe
+    const [evento] = await db.promise().query('SELECT * FROM eventos WHERE id = ?', [eventId]);
+    
+    if (evento.length === 0) {
+      return res.status(404).json({ message: 'Evento no encontrado' });
+    }
+
+    // Elimina el evento
+    await db.promise().query('DELETE FROM eventos WHERE id = ?', [eventId]);
+    
+    res.json({ success: true, message: 'Evento eliminado correctamente' });
+  } catch (error) {
+    console.error('Error al eliminar evento:', error);
+    res.status(500).json({ message: 'Error al eliminar el evento' });
+  }
+});
 
 module.exports = router;
