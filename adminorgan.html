@@ -96,5 +96,55 @@
   
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', cargarOrganizadores);
+
+    async function cargarOrganizadores() {
+      try {
+        const res = await fetch('http://localhost:3000/api/organizadores');
+        const organizadores = await res.json();
+        const tbody = document.getElementById('organTableBody');
+
+        if (!organizadores.length) {
+          tbody.innerHTML = '<tr><td colspan="3" class="text-center">No se encontraron organizadores.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = organizadores.map(organizador => `
+          <tr>
+            <td>${organizador.username}</td> <!-- antes: organizador.nombre -->
+            <td>${organizador.email}</td>    <!-- antes: organizador.correo -->
+            <td class="text-center">
+              <button class="btn btn-danger btn-sm" onclick="eliminarOrganizador(${organizador.id})">
+                <i class="fas fa-user-times me-1"></i> Eliminar Organizador
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        console.error('Error al cargar organizadores:', err);
+        document.getElementById('organTableBody').innerHTML = `
+          <tr><td colspan="3" class="text-center text-danger">Error al cargar organizadores</td></tr>
+        `;
+      }
+    }
+
+    async function eliminarOrganizador(id) {
+      if (!confirm('¿Estás seguro de quitarle el rol de organizador a este usuario?')) return;
+
+      try {
+        const res = await fetch(`http://localhost:3000/api/organizador/${id}`, {
+          method: 'PUT'
+        });
+
+        if (!res.ok) throw new Error('No se pudo actualizar el usuario');
+
+        alert('Organizador eliminado correctamente');
+        cargarOrganizadores();
+      } catch (err) {
+        alert('Error al eliminar organizador: ' + err.message);
+      }
+    }
+    </script>
 </body>
 </html>
