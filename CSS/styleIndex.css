@@ -179,3 +179,26 @@ footer {
     main {
       flex: 1;
     }
+
+    /* Estilos para el botón de nombre de usuario */
+    #username-display {
+    color: white !important;
+    opacity: 1 !important;
+    background-color: transparent !important;
+    border: none !important;
+    font-weight: bold;
+    padding: 8px 15px;
+    margin: 0 5px;
+    cursor: default;
+    }
+
+    /* Quitar estilos de disabled */
+    #username-display:disabled {
+    color: white !important;
+    opacity: 1 !important;
+    }
+
+    /* Asegurar contraste con el navbar */
+    .navbar-dark .navbar-nav .btn-username {
+    color: rgba(255, 255, 255, 1) !important;
+    }
